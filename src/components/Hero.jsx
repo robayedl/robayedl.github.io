@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import ParticleBackground from './ParticleBackground.jsx';
 import { profile, RESUME_PATH } from '../data/content.js';
 
 const fadeUp = (delay = 0) => ({
@@ -11,10 +10,6 @@ const fadeUp = (delay = 0) => ({
 export default function Hero() {
   return (
     <section id="about" className="relative overflow-hidden pt-28 pb-24 sm:pt-36 sm:pb-32">
-      <div className="absolute inset-0 pointer-events-none">
-        <ParticleBackground />
-      </div>
-
       {/* Ambient glow blobs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-accent-indigo/10 blur-[120px]" />

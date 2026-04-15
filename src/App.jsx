@@ -1,5 +1,6 @@
 import Nav from './components/Nav.jsx';
 import Hero from './components/Hero.jsx';
+import ParticleBackground from './components/ParticleBackground.jsx';
 import Stats from './components/Stats.jsx';
 import Skills from './components/Skills.jsx';
 import Projects from './components/Projects.jsx';
@@ -11,6 +12,7 @@ import Footer from './components/Footer.jsx';
 export default function App() {
   return (
     <div className="min-h-screen bg-base-900 text-ink-100">
+      <ParticleBackground />
       <Nav />
       <main>
         <Hero />
