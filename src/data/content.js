@@ -13,8 +13,10 @@ export const profile = {
   phone: '+61 492 979 732',
   github: 'https://github.com/robayedl',
   linkedin: 'https://www.linkedin.com/in/robayedashraf/',
+  codeforces: 'https://codeforces.com/profile/robayedl?locale=en',
+  leetcode: 'https://leetcode.com/u/robayedl/',
   summary:
-    'AI/ML Engineer with hands-on experience building production-grade agentic AI systems, LLM-powered applications, and end-to-end ML pipelines. Built DocuMind, an agentic RAG system using LangGraph with hybrid search, hallucination detection, and streaming responses, deployed with Docker and CI/CD. Completed a Master of Artificial Intelligence at UTS with applied work across computer vision, NLP, and generative AI.',
+    'AI/ML Engineer with hands-on experience building production-grade agentic AI systems, LLM-powered applications, and computer vision solutions. Built DocuMind, an agentic RAG system using LangGraph with hybrid search, hallucination detection, and streaming responses, deployed end-to-end with Docker, CI/CD, and RAGAS evaluation. Skilled in Python, PyTorch, TensorFlow, FastAPI, and LangGraph, with applied work spanning deep learning, NLP, generative AI, and real-time computer vision.',
 };
 
 export const stats = [
@@ -22,7 +24,7 @@ export const stats = [
   { label: 'GitHub Repo Contributions', value: 15, suffix: '' },
   { label: 'Problems Solved', value: 1000, suffix: '+' },
   { label: 'Technologies', value: 33, suffix: '+' },
-  { label: 'Masters WAM', value: 80.94, suffix: '/100', decimals: 2 },
+  { label: 'Masters GPA', value: 6.13, suffix: '/7.00', decimals: 2 },
   { label: 'Undergrad CGPA', value: 3.64, suffix: '/4.00', decimals: 2 },
 ];
 
