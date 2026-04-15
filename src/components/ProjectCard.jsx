@@ -123,7 +123,7 @@ export default function ProjectCard({ project, index }) {
         </div>
 
         {/* Description */}
-        <p className="text-ink-200 text-sm sm:text-base leading-relaxed">
+        <p className="text-ink-200 text-sm sm:text-base leading-relaxed text-justify">
           {project.description}
         </p>
 

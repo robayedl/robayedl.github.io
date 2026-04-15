@@ -17,7 +17,7 @@ export default function SectionTitle({ eyebrow, title, children }) {
       <h2 className="section-title font-display text-3xl sm:text-4xl font-bold text-ink-100">
         {title}
       </h2>
-      {children && <p className="mt-4 text-ink-300 max-w-2xl">{children}</p>}
+      {children && <p className="mt-4 text-ink-300 text-justify">{children}</p>}
     </motion.div>
   );
 }

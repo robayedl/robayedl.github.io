@@ -69,8 +69,7 @@ export default function Contact() {
 
       <div className="relative mx-auto max-w-6xl px-5">
         <SectionTitle eyebrow="Reach Out" title="Contact">
-          Open to AI / ML engineering roles. Happy to chat about agentic systems, RAG, and
-          computer vision.
+          Open to AI / ML engineering roles. Happy to chat about Computer Vision, Agentic Systems, and LLM Applications.
         </SectionTitle>
 
         <div className="grid gap-4 sm:grid-cols-2">
