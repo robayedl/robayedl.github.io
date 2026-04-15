@@ -5,6 +5,7 @@ export default function Nav() {
   const [active, setActive] = useState('about');
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [resumeOpen, setResumeOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -31,6 +32,7 @@ export default function Nav() {
   }, []);
 
   return (
+    <>
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled ? 'glass shadow-[0_6px_30px_-15px_rgba(0,0,0,0.6)]' : 'bg-transparent'
@@ -71,11 +73,14 @@ export default function Nav() {
         </ul>
 
         <div className="flex items-center gap-2">
-          <a href={RESUME_PATH} download className="btn btn-ghost text-sm hidden sm:inline-flex">
-            Resume
-          </a>
           <button
-            className="md:hidden btn btn-ghost text-sm"
+            onClick={() => setResumeOpen((v) => !v)}
+            className="btn btn-primary text-sm hidden sm:inline-flex"
+          >
+            {resumeOpen ? 'Hide Resume' : 'View Resume'}
+          </button>
+          <button
+            className="md:hidden btn btn-primary text-sm"
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle menu"
           >
@@ -101,13 +106,27 @@ export default function Nav() {
               </li>
             ))}
             <li className="pt-2">
-              <a href={RESUME_PATH} download className="btn btn-primary text-sm w-full justify-center">
-                Download Resume
-              </a>
+              <button
+                onClick={() => { setResumeOpen((v) => !v); setOpen(false); }}
+                className="btn btn-primary text-sm w-full justify-center"
+              >
+                {resumeOpen ? 'Hide Resume' : 'View Resume'}
+              </button>
             </li>
           </ul>
         </div>
       )}
     </header>
+
+      {resumeOpen && (
+        <div className="fixed inset-x-0 top-16 bottom-0 z-40 bg-[#080d1a] animate-fade-down">
+          <iframe
+            src={RESUME_PATH}
+            title="Resume"
+            className="h-full w-full border-0"
+          />
+        </div>
+      )}
+    </>
   );
 }
