@@ -35,7 +35,6 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          # Set to /repo-name/ if your repo is NOT named robayedl.github.io
           VITE_BASE_URL: /
 
       - name: Setup Pages
