@@ -18,11 +18,12 @@ export const profile = {
 };
 
 export const stats = [
-  { label: 'AI Projects', value: 6, suffix: '' },
-  { label: 'Repos Contributed', value: 11, suffix: '' },
+  { label: 'Featured AI Projects', value: 6, suffix: '' },
+  { label: 'Problems Solved', value: 1000, suffix: '+' },
+  { label: 'GitHub Repo Contributions', value: 15, suffix: '' },
   { label: 'Masters WAM', value: 80.94, suffix: '/100', decimals: 2 },
   { label: 'Technologies', value: 33, suffix: '+' },
-  { label: 'Undergrad GPA', value: 3.64, suffix: '/4.00', decimals: 2 },
+  { label: 'Undergrad CGPA', value: 3.64, suffix: '/4.00', decimals: 2 },
 ];
 
 // =====================================================================
@@ -53,15 +54,15 @@ export const projects = [
     github: 'https://github.com/robayedl/DocuMind',
     period: 'Feb 2026 – Present',
     video: {
-      type: null,
-      src: '',
+      type: 'gdrive',
+      src: 'https://drive.google.com/file/d/19S67KZ1nWcUcDesqeIP3ZHDbgPXOA7p2/preview',
       poster: '',
     },
   },
   {
     id: 'sign-language',
-    title: 'Sign Language Translation',
-    subtitle: 'Real-Time AUSLAN Captioning for Video Calls',
+    title: 'SignSync',
+    subtitle: 'Real-Time Sign Language Translation for Video Calls',
     accent: '#22d3ee',
     animType: 'wave',
     description:
@@ -73,18 +74,22 @@ export const projects = [
       'Selected for the UTS Tech Fest AI Showcase 2025',
     ],
     tech: ['Python', 'MediaPipe', 'OpenCV', 'ANN', 'Gemini API', 'Jitsi', 'React'],
-    github: null,
+    github: 'https://github.com/jason2134/SignSync',
     period: 'Feb 2025 – Jun 2025',
+    showcase: {
+      label: 'UTS Tech Fest AI Showcase 2025',
+      youtubeEmbed: 'https://www.youtube.com/embed/Q38oYFgLOj0?start=0&end=56&rel=0',
+    },
     video: {
-      type: 'youtube',
-      src: 'https://www.youtube.com/embed/Q38oYFgLOj0?start=0&end=56',
+      type: 'gdrive',
+      src: 'https://drive.google.com/file/d/1poaLyyHlphwcyuERuAklksM7k_zmP1jN/preview',
       poster: '',
     },
   },
   {
     id: 'smart-plant',
-    title: 'Smart Plant Health Monitoring',
-    subtitle: 'MLOps-Driven Crop Disease Classification',
+    title: 'Smart Plant Health Monitor',
+    subtitle: 'MLOps-Driven Plant Disease Classification',
     accent: '#34d399',
     animType: 'grid',
     description:
@@ -96,11 +101,12 @@ export const projects = [
       'Jira + Confluence-driven Agile delivery',
     ],
     tech: ['Python', 'CNN', 'ClearML', 'Streamlit', 'Pandas', 'GitHub Actions'],
-    github: null,
+    github: 'https://github.com/asimsantos/thirdaxis',
+    liveUrl: 'https://thirdaxis.onrender.com/',
     period: 'Feb 2025 – Jun 2025',
     video: {
-      type: null,
-      src: '',
+      type: 'gdrive',
+      src: 'https://drive.google.com/file/d/1zY1xYtHnkEqIkqKr526t_m4bbBOBLqQM/preview',
       poster: '',
     },
   },
@@ -130,7 +136,7 @@ export const projects = [
   {
     id: 'f1racers',
     title: 'F1Racers',
-    subtitle: 'Deep RL for Autonomous Circuit Racing',
+    subtitle: 'Deep RL for Autonomous Car Racing',
     accent: '#f59e0b',
     animType: 'race',
     description:
@@ -142,10 +148,10 @@ export const projects = [
     ],
     tech: ['Python', 'Gymnasium', 'PyTorch', 'DQN', 'PPO', 'SAC'],
     github: 'https://github.com/robayedl/F1Racers',
-    period: '2025',
+    period: 'Aug 2024 – Nov 2024',
     video: {
-      type: null,
-      src: '',
+      type: 'gdrive',
+      src: 'https://drive.google.com/file/d/1A_4sP8GilULZQaiBVip3vww99a75J2_U/preview',
       poster: '',
     },
   },
@@ -164,10 +170,10 @@ export const projects = [
     ],
     tech: ['Python', 'TensorFlow', 'Keras', 'OpenCV', 'CNN'],
     github: 'https://github.com/robayedl/TrafficSignRecognitionUsingCNN',
-    period: '2024',
+    period: 'Feb 2024 – Jun 2024',
     video: {
-      type: null,
-      src: '',
+      type: 'gdrive',
+      src: 'https://drive.google.com/file/d/1boZB1i35HFjukPuEkh8ixloRWRtKCAvm/preview',
       poster: '',
     },
   },
