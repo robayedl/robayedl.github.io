@@ -12,8 +12,7 @@ export default function Projects() {
 
       <div className="relative mx-auto max-w-6xl px-5">
         <SectionTitle eyebrow="Featured Work" title="Projects">
-          Selected work across agentic AI, computer vision, and MLOps. Each card shows a live
-          demo animation — click play when video is available.
+          Selected work across agentic AI, Computer Vision, and MLOps. Each card shows a demo video — click play when video is available.
         </SectionTitle>
 
         <div className="grid gap-6 md:grid-cols-2">
