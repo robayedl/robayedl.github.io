@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import ParticleBackground from './ParticleBackground.jsx';
 import { profile, RESUME_PATH } from '../data/content.js';
 
 const fadeUp = (delay = 0) => ({
@@ -11,10 +10,6 @@ const fadeUp = (delay = 0) => ({
 export default function Hero() {
   return (
     <section id="about" className="relative overflow-hidden pt-28 pb-24 sm:pt-36 sm:pb-32">
-      <div className="absolute inset-0 pointer-events-none">
-        <ParticleBackground />
-      </div>
-
       {/* Ambient glow blobs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-accent-indigo/10 blur-[120px]" />
@@ -46,7 +41,7 @@ export default function Hero() {
 
         <motion.p
           {...fadeUp(0.28)}
-          className="mt-6 text-ink-300 text-base sm:text-lg max-w-3xl leading-relaxed"
+          className="mt-6 text-ink-300 text-base sm:text-lg leading-relaxed text-justify"
         >
           {profile.summary}
         </motion.p>
@@ -55,10 +50,7 @@ export default function Hero() {
           {...fadeUp(0.38)}
           className="mt-8 flex flex-wrap items-center gap-3"
         >
-          <a href="#projects" className="btn btn-primary text-sm sm:text-base">
-            View Projects
-          </a>
-          <a href={RESUME_PATH} download className="btn btn-ghost text-sm sm:text-base">
+          <a href={RESUME_PATH} download className="btn btn-primary text-sm sm:text-base">
             Download Resume
           </a>
           <a
@@ -83,13 +75,35 @@ export default function Hero() {
             </svg>
             LinkedIn
           </a>
+          <a
+            href={profile.leetcode}
+            target="_blank"
+            rel="noreferrer"
+            className="btn btn-ghost text-sm sm:text-base flex items-center gap-2"
+          >
+            <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" style={{ color: '#FFA116' }}>
+              <path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 0 1 .066-.523 2.545 2.545 0 0 1 .619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 0 0-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0 0 13.483 0zm-2.866 12.815a1.38 1.38 0 0 0-1.38 1.382 1.38 1.38 0 0 0 1.38 1.382H20.79a1.38 1.38 0 0 0 1.38-1.382 1.38 1.38 0 0 0-1.38-1.382z"/>
+            </svg>
+            LeetCode
+          </a>
+          <a
+            href={profile.codeforces}
+            target="_blank"
+            rel="noreferrer"
+            className="btn btn-ghost text-sm sm:text-base flex items-center gap-2"
+          >
+            <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" style={{ color: '#318CE7' }}>
+              <path d="M4.5 7.5A1.5 1.5 0 0 1 6 9v10.5A1.5 1.5 0 0 1 4.5 21h-3A1.5 1.5 0 0 1 0 19.5V9A1.5 1.5 0 0 1 1.5 7.5h3zm9-4.5A1.5 1.5 0 0 1 15 4.5v15a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 19.5v-15A1.5 1.5 0 0 1 10.5 3h3zm9 7.5A1.5 1.5 0 0 1 24 12v7.5a1.5 1.5 0 0 1-1.5 1.5h-3a1.5 1.5 0 0 1-1.5-1.5V12a1.5 1.5 0 0 1 1.5-1.5h3z"/>
+            </svg>
+            Codeforces
+          </a>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.55 }}
-          className="mono text-xs sm:text-sm text-ink-400 mt-10 flex items-center gap-2"
+          className="mono text-sm sm:text-base text-ink-400 mt-10 flex items-center gap-2"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-3.5 w-3.5 text-accent-cyan/70">
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />

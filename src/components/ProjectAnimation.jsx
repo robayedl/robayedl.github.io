@@ -1,12 +1,8 @@
 import { useEffect, useRef } from 'react';
 
-// Per-project canvas animations keyed by animType:
-//   'neural' – floating connected nodes (DocuMind / LangGraph)
-//   'wave'   – ripple rings (Sign Language)
-//   'grid'   – growing data-point grid (Smart Plant / MLOps)
-//   'track'  – moving tracked objects with bounding boxes (MOT)
-//   'race'   – speed-trail particles (F1Racers / RL)
-//   'scan'   – rotating radar sweep (Traffic Sign / CNN)
+// Canvas tech animations keyed by animType.
+// Uses IntersectionObserver to pause the RAF loop when the card is off-screen,
+// keeping 6 simultaneous canvases cheap.
 
 export default function ProjectAnimation({ animType = 'neural', accent = '#6366f1' }) {
   const ref = useRef(null);
@@ -17,6 +13,7 @@ export default function ProjectAnimation({ animType = 'neural', accent = '#6366f
     const ctx = canvas.getContext('2d');
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let raf;
+    let visible = false;
     let t = 0;
 
     const resize = () => {
@@ -27,279 +24,269 @@ export default function ProjectAnimation({ animType = 'neural', accent = '#6366f
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     resize();
-    window.addEventListener('resize', resize);
 
-    // Hex to rgb helper
+    const ro = new ResizeObserver(resize);
+    ro.observe(canvas);
+
+    // Hex to r,g,b string
     const hexRgb = (hex) => {
-      const r = parseInt(hex.slice(1, 3), 16);
-      const g = parseInt(hex.slice(3, 5), 16);
-      const b = parseInt(hex.slice(5, 7), 16);
-      return `${r},${g},${b}`;
+      const h = hex.length === 7 ? hex : '#6366f1';
+      return `${parseInt(h.slice(1,3),16)},${parseInt(h.slice(3,5),16)},${parseInt(h.slice(5,7),16)}`;
     };
-    const rgb = hexRgb(accent.length === 7 ? accent : '#6366f1');
+    const rgb = hexRgb(accent);
 
     const W = () => canvas.getBoundingClientRect().width;
     const H = () => canvas.getBoundingClientRect().height;
 
-    // ── NEURAL ─────────────────────────────────────────────────────────
-    const neuralNodes = Array.from({ length: 14 }, () => ({
+    // ── per-type state ────────────────────────────────────────────────
+
+    // NEURAL
+    const nodes = Array.from({ length: 16 }, () => ({
       x: Math.random(), y: Math.random(),
-      vx: (Math.random() - 0.5) * 0.0003,
-      vy: (Math.random() - 0.5) * 0.0003,
-      pulse: Math.random() * Math.PI * 2,
+      vx: (Math.random()-0.5)*0.0002, vy: (Math.random()-0.5)*0.0002,
+      pulse: Math.random()*Math.PI*2,
     }));
 
-    // ── WAVE ──────────────────────────────────────────────────────────
-    const waveRings = Array.from({ length: 4 }, (_, i) => ({ phase: i * (Math.PI / 2) }));
+    // WAVE
+    const rings = [0, 0.25, 0.5, 0.75].map(phase => ({ phase }));
 
-    // ── GRID ──────────────────────────────────────────────────────────
+    // GRID
     const gridPts = Array.from({ length: 30 }, (_, i) => ({
-      col: i % 6, row: Math.floor(i / 6),
-      born: Math.random(),
+      col: i%6, row: Math.floor(i/6), born: Math.random(),
     }));
 
-    // ── TRACK ─────────────────────────────────────────────────────────
+    // TRACK
     const trackers = Array.from({ length: 4 }, (_, i) => ({
-      x: 0.15 + (i % 2) * 0.5, y: 0.25 + Math.floor(i / 2) * 0.4,
-      vx: (Math.random() - 0.5) * 0.0012, vy: (Math.random() - 0.5) * 0.0008,
-      id: i + 1,
+      x: 0.15+(i%2)*0.5, y: 0.25+Math.floor(i/2)*0.4,
+      vx: (Math.random()-0.5)*0.001, vy: (Math.random()-0.5)*0.0007,
+      id: i+1,
     }));
 
-    // ── RACE ──────────────────────────────────────────────────────────
-    const trails = Array.from({ length: 18 }, () => ({
+    // RACE
+    const trails = Array.from({ length: 20 }, () => ({
       x: Math.random(), y: Math.random(),
-      vx: (Math.random() * 0.006 + 0.002),
-      vy: (Math.random() - 0.5) * 0.002,
-      life: Math.random(),
-      maxLife: 0.5 + Math.random() * 0.5,
+      vx: Math.random()*0.005+0.002,
+      vy: (Math.random()-0.5)*0.0015,
+      life: Math.random(), maxLife: 0.5+Math.random()*0.5,
     }));
 
-    // ── SCAN ──────────────────────────────────────────────────────────
-    const scanDots = Array.from({ length: 12 }, () => ({
-      angle: Math.random() * Math.PI * 2,
-      dist: 0.1 + Math.random() * 0.35,
+    // SCAN
+    const scanDots = Array.from({ length: 14 }, () => ({
+      angle: Math.random()*Math.PI*2,
+      dist: 0.08+Math.random()*0.38,
       bright: Math.random(),
     }));
 
+    // ── draw ──────────────────────────────────────────────────────────
     const draw = () => {
       const w = W(), h = H();
       ctx.clearRect(0, 0, w, h);
       t += 0.016;
 
+      // ── NEURAL ──────────────────────────────────────────────────────
       if (animType === 'neural') {
-        // Move nodes
-        neuralNodes.forEach(n => {
+        nodes.forEach(n => {
           n.x = (n.x + n.vx + 1) % 1;
           n.y = (n.y + n.vy + 1) % 1;
-          n.pulse += 0.04;
+          n.pulse += 0.035;
         });
-        // Edges
-        for (let i = 0; i < neuralNodes.length; i++) {
-          for (let j = i + 1; j < neuralNodes.length; j++) {
-            const a = neuralNodes[i], b = neuralNodes[j];
-            const dx = (a.x - b.x) * w, dy = (a.y - b.y) * h;
-            const d = Math.sqrt(dx * dx + dy * dy);
-            if (d < w * 0.3) {
-              const alpha = (1 - d / (w * 0.3)) * 0.35;
-              ctx.strokeStyle = `rgba(${rgb},${alpha})`;
-              ctx.lineWidth = 0.8;
+        for (let i = 0; i < nodes.length; i++) {
+          for (let j = i+1; j < nodes.length; j++) {
+            const a = nodes[i], b = nodes[j];
+            const dx = (a.x-b.x)*w, dy = (a.y-b.y)*h;
+            const d = Math.sqrt(dx*dx+dy*dy);
+            if (d < w*0.28) {
+              ctx.strokeStyle = `rgba(${rgb},${(1-d/(w*0.28))*0.22})`;
+              ctx.lineWidth = 0.7;
               ctx.beginPath();
-              ctx.moveTo(a.x * w, a.y * h);
-              ctx.lineTo(b.x * w, b.y * h);
+              ctx.moveTo(a.x*w, a.y*h);
+              ctx.lineTo(b.x*w, b.y*h);
               ctx.stroke();
             }
           }
         }
-        // Nodes
-        neuralNodes.forEach(n => {
-          const r = 2.5 + Math.sin(n.pulse) * 1;
-          const glow = ctx.createRadialGradient(n.x * w, n.y * h, 0, n.x * w, n.y * h, r * 4);
-          glow.addColorStop(0, `rgba(${rgb},0.6)`);
-          glow.addColorStop(1, `rgba(${rgb},0)`);
-          ctx.fillStyle = glow;
-          ctx.beginPath();
-          ctx.arc(n.x * w, n.y * h, r * 4, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.fillStyle = `rgba(${rgb},0.9)`;
-          ctx.beginPath();
-          ctx.arc(n.x * w, n.y * h, r, 0, Math.PI * 2);
-          ctx.fill();
+        nodes.forEach(n => {
+          const r = 2+Math.sin(n.pulse)*0.8;
+          const g = ctx.createRadialGradient(n.x*w, n.y*h, 0, n.x*w, n.y*h, r*5);
+          g.addColorStop(0, `rgba(${rgb},0.45)`);
+          g.addColorStop(1, `rgba(${rgb},0)`);
+          ctx.fillStyle = g;
+          ctx.beginPath(); ctx.arc(n.x*w, n.y*h, r*5, 0, Math.PI*2); ctx.fill();
+          ctx.fillStyle = `rgba(${rgb},0.8)`;
+          ctx.beginPath(); ctx.arc(n.x*w, n.y*h, r, 0, Math.PI*2); ctx.fill();
         });
       }
 
+      // ── WAVE ────────────────────────────────────────────────────────
       if (animType === 'wave') {
-        const cx = w / 2, cy = h / 2;
-        waveRings.forEach((ring, i) => {
-          const progress = ((t * 0.4 + ring.phase / (Math.PI * 2)) % 1);
-          const radius = progress * Math.min(w, h) * 0.55;
-          const alpha = (1 - progress) * 0.5;
+        const cx = w/2, cy = h/2;
+        rings.forEach(ring => {
+          const progress = ((t*0.35+ring.phase) % 1);
+          const radius = progress * Math.min(w,h) * 0.6;
+          const alpha = (1-progress)*0.45;
           ctx.strokeStyle = `rgba(${rgb},${alpha})`;
           ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-          ctx.stroke();
+          ctx.beginPath(); ctx.arc(cx, cy, radius, 0, Math.PI*2); ctx.stroke();
         });
-        // Centre pulse dot
-        const pulse = 0.5 + Math.sin(t * 2) * 0.5;
-        const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, 18);
-        glow.addColorStop(0, `rgba(${rgb},${0.7 * pulse})`);
-        glow.addColorStop(1, `rgba(${rgb},0)`);
-        ctx.fillStyle = glow;
-        ctx.beginPath(); ctx.arc(cx, cy, 18, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = `rgba(${rgb},0.9)`;
-        ctx.beginPath(); ctx.arc(cx, cy, 4, 0, Math.PI * 2); ctx.fill();
+        const p = 0.5+Math.sin(t*1.8)*0.5;
+        const g = ctx.createRadialGradient(cx,cy,0, cx,cy,22);
+        g.addColorStop(0, `rgba(${rgb},${0.6*p})`);
+        g.addColorStop(1, `rgba(${rgb},0)`);
+        ctx.fillStyle = g;
+        ctx.beginPath(); ctx.arc(cx,cy,22,0,Math.PI*2); ctx.fill();
+        ctx.fillStyle = `rgba(${rgb},0.85)`;
+        ctx.beginPath(); ctx.arc(cx,cy,3.5,0,Math.PI*2); ctx.fill();
       }
 
+      // ── GRID ────────────────────────────────────────────────────────
       if (animType === 'grid') {
-        const cols = 6, rows = 5;
-        const padX = w * 0.12, padY = h * 0.12;
-        const cellW = (w - padX * 2) / (cols - 1);
-        const cellH = (h - padY * 2) / (rows - 1);
-        gridPts.forEach((p, idx) => {
-          const age = (t * 0.2 - p.born + 2) % 2;
-          const alpha = age < 1 ? age * 0.7 : (2 - age) * 0.7;
-          const px = padX + p.col * cellW;
-          const py = padY + p.row * cellH;
-          ctx.fillStyle = `rgba(${rgb},${alpha * 0.9})`;
-          ctx.beginPath();
-          ctx.arc(px, py, 2.5, 0, Math.PI * 2);
-          ctx.fill();
-          // horizontal line to next col
-          if (p.col < cols - 1) {
-            ctx.strokeStyle = `rgba(${rgb},${alpha * 0.25})`;
+        const cols=6, rows=5;
+        const px0 = w*0.1, py0 = h*0.1;
+        const cw = (w-px0*2)/(cols-1), ch = (h-py0*2)/(rows-1);
+        gridPts.forEach(p => {
+          const age = (t*0.18-p.born+2)%2;
+          const alpha = (age < 1 ? age : 2-age)*0.65;
+          const x = px0+p.col*cw, y = py0+p.row*ch;
+          ctx.fillStyle = `rgba(${rgb},${alpha*0.85})`;
+          ctx.beginPath(); ctx.arc(x,y,2.5,0,Math.PI*2); ctx.fill();
+          if (p.col < cols-1) {
+            ctx.strokeStyle = `rgba(${rgb},${alpha*0.2})`;
             ctx.lineWidth = 0.8;
-            ctx.beginPath();
-            ctx.moveTo(px, py);
-            ctx.lineTo(px + cellW, py);
-            ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+cw,y); ctx.stroke();
+          }
+          if (p.row < rows-1) {
+            ctx.strokeStyle = `rgba(${rgb},${alpha*0.12})`;
+            ctx.lineWidth = 0.8;
+            ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x,y+ch); ctx.stroke();
           }
         });
       }
 
+      // ── TRACK ───────────────────────────────────────────────────────
       if (animType === 'track') {
         trackers.forEach(tr => {
-          tr.x = Math.max(0.08, Math.min(0.92, tr.x + tr.vx));
-          tr.y = Math.max(0.08, Math.min(0.92, tr.y + tr.vy));
-          if (tr.x <= 0.08 || tr.x >= 0.92) tr.vx *= -1;
-          if (tr.y <= 0.08 || tr.y >= 0.92) tr.vy *= -1;
-          const bw = w * 0.14, bh = h * 0.14;
-          const bx = tr.x * w - bw / 2, by = tr.y * h - bh / 2;
-          // Bounding box
-          ctx.strokeStyle = `rgba(${rgb},0.7)`;
-          ctx.lineWidth = 1.2;
-          const corner = 5;
+          tr.x = Math.max(0.08, Math.min(0.9, tr.x+tr.vx));
+          tr.y = Math.max(0.08, Math.min(0.9, tr.y+tr.vy));
+          if (tr.x<=0.08||tr.x>=0.9) tr.vx*=-1;
+          if (tr.y<=0.08||tr.y>=0.9) tr.vy*=-1;
+          const bw=w*0.13, bh=h*0.18;
+          const bx=tr.x*w-bw/2, by=tr.y*h-bh/2;
+          const k=6;
+          ctx.strokeStyle = `rgba(${rgb},0.65)`;
+          ctx.lineWidth = 1;
           ctx.beginPath();
-          ctx.moveTo(bx + corner, by); ctx.lineTo(bx + bw - corner, by);
-          ctx.moveTo(bx + bw, by + corner); ctx.lineTo(bx + bw, by + bh - corner);
-          ctx.moveTo(bx + bw - corner, by + bh); ctx.lineTo(bx + corner, by + bh);
-          ctx.moveTo(bx, by + bh - corner); ctx.lineTo(bx, by + corner);
+          ctx.moveTo(bx+k,by); ctx.lineTo(bx+bw-k,by);
+          ctx.moveTo(bx+bw,by+k); ctx.lineTo(bx+bw,by+bh-k);
+          ctx.moveTo(bx+bw-k,by+bh); ctx.lineTo(bx+k,by+bh);
+          ctx.moveTo(bx,by+bh-k); ctx.lineTo(bx,by+k);
           ctx.stroke();
-          // Corner ticks
+          ctx.strokeStyle = `rgba(${rgb},0.95)`;
+          ctx.lineWidth = 1.6;
           ctx.beginPath();
-          ctx.moveTo(bx, by + corner); ctx.lineTo(bx, by); ctx.lineTo(bx + corner, by);
-          ctx.moveTo(bx + bw - corner, by); ctx.lineTo(bx + bw, by); ctx.lineTo(bx + bw, by + corner);
-          ctx.moveTo(bx + bw, by + bh - corner); ctx.lineTo(bx + bw, by + bh); ctx.lineTo(bx + bw - corner, by + bh);
-          ctx.moveTo(bx + corner, by + bh); ctx.lineTo(bx, by + bh); ctx.lineTo(bx, by + bh - corner);
-          ctx.strokeStyle = `rgba(${rgb},1)`;
-          ctx.lineWidth = 1.8;
+          ctx.moveTo(bx,by+k); ctx.lineTo(bx,by); ctx.lineTo(bx+k,by);
+          ctx.moveTo(bx+bw-k,by); ctx.lineTo(bx+bw,by); ctx.lineTo(bx+bw,by+k);
+          ctx.moveTo(bx+bw,by+bh-k); ctx.lineTo(bx+bw,by+bh); ctx.lineTo(bx+bw-k,by+bh);
+          ctx.moveTo(bx+k,by+bh); ctx.lineTo(bx,by+bh); ctx.lineTo(bx,by+bh-k);
           ctx.stroke();
-          // ID label
-          ctx.fillStyle = `rgba(${rgb},0.9)`;
-          ctx.font = `bold 9px DM Mono, monospace`;
-          ctx.fillText(`#${tr.id}`, bx + 2, by - 3);
-          // Centre dot
-          ctx.fillStyle = `rgba(${rgb},0.8)`;
-          ctx.beginPath(); ctx.arc(tr.x * w, tr.y * h, 2.5, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = `rgba(${rgb},0.85)`;
+          ctx.font = 'bold 8px DM Mono,monospace';
+          ctx.fillText(`#${tr.id}`, bx+2, by-3);
+          ctx.fillStyle = `rgba(${rgb},0.7)`;
+          ctx.beginPath(); ctx.arc(tr.x*w,tr.y*h,2,0,Math.PI*2); ctx.fill();
         });
       }
 
+      // ── RACE ────────────────────────────────────────────────────────
       if (animType === 'race') {
         trails.forEach(tr => {
-          tr.x += tr.vx;
-          tr.life += 0.018;
-          if (tr.x > 1 || tr.life > tr.maxLife) {
-            tr.x = 0; tr.y = Math.random(); tr.life = 0;
-            tr.vx = Math.random() * 0.006 + 0.002;
-            tr.vy = (Math.random() - 0.5) * 0.002;
+          tr.x += tr.vx; tr.life += 0.015;
+          if (tr.x>1||tr.life>tr.maxLife) {
+            tr.x=0; tr.y=Math.random(); tr.life=0;
+            tr.vx=Math.random()*0.005+0.002;
           }
-          tr.y = Math.max(0, Math.min(1, tr.y + tr.vy));
-          const alpha = (1 - tr.life / tr.maxLife) * 0.7;
-          const tailLen = w * (0.04 + tr.vx * 5);
-          const grad = ctx.createLinearGradient((tr.x - tr.vx * 8) * w, tr.y * h, tr.x * w, tr.y * h);
-          grad.addColorStop(0, `rgba(${rgb},0)`);
-          grad.addColorStop(1, `rgba(${rgb},${alpha})`);
-          ctx.strokeStyle = grad;
-          ctx.lineWidth = 1.2;
+          tr.y = Math.max(0, Math.min(1, tr.y+tr.vy));
+          const alpha = (1-tr.life/tr.maxLife)*0.65;
+          const g = ctx.createLinearGradient((tr.x-tr.vx*10)*w, tr.y*h, tr.x*w, tr.y*h);
+          g.addColorStop(0, `rgba(${rgb},0)`);
+          g.addColorStop(1, `rgba(${rgb},${alpha})`);
+          ctx.strokeStyle = g;
+          ctx.lineWidth = 1;
           ctx.beginPath();
-          ctx.moveTo((tr.x - tr.vx * 8) * w, tr.y * h);
-          ctx.lineTo(tr.x * w, tr.y * h);
+          ctx.moveTo((tr.x-tr.vx*10)*w, tr.y*h);
+          ctx.lineTo(tr.x*w, tr.y*h);
           ctx.stroke();
         });
       }
 
+      // ── SCAN ────────────────────────────────────────────────────────
       if (animType === 'scan') {
-        const cx = w / 2, cy = h / 2;
-        const maxR = Math.min(w, h) * 0.42;
-        const sweepAngle = (t * 1.2) % (Math.PI * 2);
-        // Radar rings
-        [0.33, 0.66, 1].forEach(f => {
-          ctx.strokeStyle = `rgba(${rgb},0.12)`;
-          ctx.lineWidth = 0.8;
-          ctx.beginPath();
-          ctx.arc(cx, cy, maxR * f, 0, Math.PI * 2);
-          ctx.stroke();
+        const cx=w/2, cy=h/2;
+        const maxR = Math.min(w,h)*0.42;
+        const sweep = (t*1.1)%(Math.PI*2);
+        [0.33,0.66,1].forEach(f => {
+          ctx.strokeStyle = `rgba(${rgb},0.1)`;
+          ctx.lineWidth = 0.7;
+          ctx.beginPath(); ctx.arc(cx,cy,maxR*f,0,Math.PI*2); ctx.stroke();
         });
-        // Cross-hairs
-        ctx.strokeStyle = `rgba(${rgb},0.08)`;
-        ctx.lineWidth = 0.8;
+        ctx.strokeStyle = `rgba(${rgb},0.07)`;
+        ctx.lineWidth=0.7;
         ctx.beginPath();
-        ctx.moveTo(cx - maxR, cy); ctx.lineTo(cx + maxR, cy);
-        ctx.moveTo(cx, cy - maxR); ctx.lineTo(cx, cy + maxR);
+        ctx.moveTo(cx-maxR,cy); ctx.lineTo(cx+maxR,cy);
+        ctx.moveTo(cx,cy-maxR); ctx.lineTo(cx,cy+maxR);
         ctx.stroke();
-        // Sweep gradient
-        const sweep = ctx.createConicalGradient ? null : null; // not supported; use clip+arc
         ctx.save();
         ctx.beginPath();
-        ctx.moveTo(cx, cy);
-        ctx.arc(cx, cy, maxR, sweepAngle - Math.PI * 0.4, sweepAngle);
+        ctx.moveTo(cx,cy);
+        ctx.arc(cx,cy,maxR,sweep-Math.PI*0.35,sweep);
         ctx.closePath();
-        const radGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, maxR);
-        radGrad.addColorStop(0, `rgba(${rgb},0.35)`);
-        radGrad.addColorStop(1, `rgba(${rgb},0)`);
-        ctx.fillStyle = radGrad;
+        const g = ctx.createRadialGradient(cx,cy,0, cx,cy,maxR);
+        g.addColorStop(0, `rgba(${rgb},0.3)`);
+        g.addColorStop(1, `rgba(${rgb},0)`);
+        ctx.fillStyle = g;
         ctx.fill();
         ctx.restore();
-        // Sweep line
-        ctx.strokeStyle = `rgba(${rgb},0.8)`;
-        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = `rgba(${rgb},0.75)`;
+        ctx.lineWidth = 1.2;
         ctx.beginPath();
-        ctx.moveTo(cx, cy);
-        ctx.lineTo(cx + Math.cos(sweepAngle) * maxR, cy + Math.sin(sweepAngle) * maxR);
+        ctx.moveTo(cx,cy);
+        ctx.lineTo(cx+Math.cos(sweep)*maxR, cy+Math.sin(sweep)*maxR);
         ctx.stroke();
-        // Blip dots
         scanDots.forEach(d => {
-          const angleDiff = ((d.angle - sweepAngle) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
-          const fadeWindow = Math.PI * 0.5;
-          if (angleDiff < fadeWindow) {
-            const alpha = (1 - angleDiff / fadeWindow) * d.bright;
-            const dx = cx + Math.cos(d.angle) * d.dist * maxR;
-            const dy = cy + Math.sin(d.angle) * d.dist * maxR;
+          const diff = ((d.angle-sweep)%(Math.PI*2)+Math.PI*2)%(Math.PI*2);
+          if (diff < Math.PI*0.45) {
+            const alpha = (1-diff/(Math.PI*0.45))*d.bright*0.9;
+            const dx = cx+Math.cos(d.angle)*d.dist*maxR;
+            const dy = cy+Math.sin(d.angle)*d.dist*maxR;
             ctx.fillStyle = `rgba(${rgb},${alpha})`;
-            ctx.beginPath(); ctx.arc(dx, dy, 2.5, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(dx,dy,2.2,0,Math.PI*2); ctx.fill();
           }
         });
-        // Centre dot
         ctx.fillStyle = `rgba(${rgb},0.9)`;
-        ctx.beginPath(); ctx.arc(cx, cy, 3, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx,cy,2.5,0,Math.PI*2); ctx.fill();
       }
 
       if (!reduced) raf = requestAnimationFrame(draw);
     };
 
-    draw();
+    // Only animate when visible
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible && !raf) {
+          raf = requestAnimationFrame(draw);
+        } else if (!visible) {
+          cancelAnimationFrame(raf);
+          raf = null;
+        }
+      },
+      { threshold: 0.05 }
+    );
+    io.observe(canvas);
+
     return () => {
       cancelAnimationFrame(raf);
-      window.removeEventListener('resize', resize);
+      io.disconnect();
+      ro.disconnect();
     };
   }, [animType, accent]);
 
