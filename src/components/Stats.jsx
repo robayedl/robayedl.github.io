@@ -46,7 +46,7 @@ export default function Stats() {
   return (
     <section id="stats" className="relative py-12 sm:py-16">
       <div className="mx-auto max-w-6xl px-5">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
           {stats.map((s, i) => (
             <motion.div
               key={s.label}
