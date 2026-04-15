@@ -19,22 +19,13 @@ export const profile = {
 
 export const stats = [
   { label: 'Featured AI Projects', value: 6, suffix: '' },
-  { label: 'Problems Solved', value: 1000, suffix: '+' },
   { label: 'GitHub Repo Contributions', value: 15, suffix: '' },
-  { label: 'Masters WAM', value: 80.94, suffix: '/100', decimals: 2 },
+  { label: 'Problems Solved', value: 1000, suffix: '+' },
   { label: 'Technologies', value: 33, suffix: '+' },
+  { label: 'Masters WAM', value: 80.94, suffix: '/100', decimals: 2 },
   { label: 'Undergrad CGPA', value: 3.64, suffix: '/4.00', decimals: 2 },
 ];
 
-// =====================================================================
-// PROJECTS
-// video.type  = 'mp4' | 'youtube' | null
-// video.src   = '/videos/file.mp4' or 'https://www.youtube.com/embed/ID'
-// video.poster = '/posters/image.jpg'  (used as thumbnail)
-//
-// DROP mp4 files in /public/videos/
-// DROP poster images in /public/posters/
-// =====================================================================
 export const projects = [
   {
     id: 'documind',
