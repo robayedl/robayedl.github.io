@@ -124,7 +124,6 @@ export default function Nav() {
             src={RESUME_PATH}
             title="Resume"
             className="h-full w-full border-0"
-            sandbox="allow-scripts allow-same-origin"
             referrerPolicy="no-referrer"
           />
         </div>
