@@ -7,4 +7,14 @@ export default defineConfig({
   plugins: [react()],
   base: process.env.VITE_BASE_URL ?? '/',
   server: { port: 5173, open: true },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom'],
+          'motion': ['framer-motion'],
+        },
+      },
+    },
+  },
 });

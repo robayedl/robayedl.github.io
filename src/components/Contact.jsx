@@ -82,7 +82,7 @@ export default function Contact() {
               initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.55, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 1.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
               whileHover={{ y: -3 }}
               className="card p-5 flex items-center gap-4 group"
               onMouseEnter={(e) =>
@@ -113,14 +113,7 @@ export default function Contact() {
                 <div className="text-ink-100 text-sm sm:text-base truncate">{item.value}</div>
               </div>
 
-              <motion.span
-                className="text-ink-400 shrink-0 text-lg"
-                style={{ color: item.accent }}
-                animate={{ x: [0, 3, 0] }}
-                transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut', delay: i * 0.3 }}
-              >
-                →
-              </motion.span>
+              <span className="shrink-0 text-lg" style={{ color: item.accent }}>→</span>
             </motion.a>
           ))}
         </div>
