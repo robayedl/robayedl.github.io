@@ -47,6 +47,8 @@ export default function VideoEmbed({ video, accent }) {
           className="absolute inset-0 h-full w-full"
           allow="encrypted-media"
           allowFullScreen
+          sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-popups allow-fullscreen"
+          referrerPolicy="strict-origin-when-cross-origin"
         />
       </div>
     );
@@ -107,6 +109,8 @@ export default function VideoEmbed({ video, accent }) {
           className="absolute inset-0 h-full w-full"
           allow="autoplay; encrypted-media; picture-in-picture"
           allowFullScreen
+          sandbox="allow-scripts allow-same-origin allow-presentation allow-popups allow-fullscreen"
+          referrerPolicy="strict-origin-when-cross-origin"
         />
       </div>
     );

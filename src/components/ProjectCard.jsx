@@ -33,7 +33,7 @@ export default function ProjectCard({ project, index }) {
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.6, delay: (index % 2) * 0.1, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 1.5, delay: (index % 2) * 0.1, ease: [0.22, 1, 0.36, 1] }}
       className="card p-6 sm:p-7 group flex flex-col relative overflow-hidden"
       style={{ '--accent': accent, '--tag-color': accent }}
       onMouseEnter={(e) =>

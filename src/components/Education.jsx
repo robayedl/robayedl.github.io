@@ -24,7 +24,7 @@ export default function Education() {
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 whileInView={{ opacity: 1, scale: 1, y: 0 }}
                 viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.6, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 1.5, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
                 className="card p-6 sm:p-7 flex flex-col gap-1"
                 onMouseEnter={(e) =>
                   (e.currentTarget.style.boxShadow = `0 0 40px -12px ${accent}66`)

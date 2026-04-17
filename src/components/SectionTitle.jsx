@@ -6,7 +6,7 @@ export default function SectionTitle({ eyebrow, title, children }) {
       initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
+      transition={{ duration: 1.5, ease: 'easeOut' }}
       className="mb-10"
     >
       {eyebrow && (

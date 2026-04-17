@@ -48,7 +48,7 @@ export default function Experience() {
                 initial={{ opacity: 0, x: -28 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 1.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
                 className="relative"
               >
                 {/* Timeline dot */}
@@ -75,21 +75,24 @@ export default function Experience() {
                     </span>
                   </div>
 
-                  <ul className="space-y-2">
-                    {e.bullets.map((b, bi) => (
+                  <motion.ul
+                    className="space-y-2"
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true }}
+                    variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06, delayChildren: 0.3 } } }}
+                  >
+                    {e.bullets.map((b) => (
                       <motion.li
                         key={b}
-                        initial={{ opacity: 0, x: -12 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.4, delay: i * 0.1 + bi * 0.06 + 0.3 }}
+                        variants={{ hidden: { opacity: 0, x: -12 }, show: { opacity: 1, x: 0, transition: { duration: 0.4 } } }}
                         className="flex gap-2.5 text-ink-200 text-sm sm:text-base"
                       >
                         <span className="mt-[8px] h-1.5 w-1.5 rounded-full shrink-0 bg-accent-indigo" />
                         <span>{b}</span>
                       </motion.li>
                     ))}
-                  </ul>
+                  </motion.ul>
                 </div>
               </motion.div>
             ))}

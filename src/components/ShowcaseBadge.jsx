@@ -102,6 +102,8 @@ export default function ShowcaseBadge({ showcase }) {
                   className="absolute inset-0 h-full w-full"
                   allow="autoplay; encrypted-media; picture-in-picture"
                   allowFullScreen
+                  sandbox="allow-scripts allow-same-origin allow-presentation allow-popups allow-fullscreen"
+                  referrerPolicy="strict-origin-when-cross-origin"
                 />
               </div>
 

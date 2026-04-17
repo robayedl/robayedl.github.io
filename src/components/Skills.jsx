@@ -33,7 +33,7 @@ export default function Skills() {
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 1.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
                 className="card p-6"
                 onMouseEnter={(e) =>
                   (e.currentTarget.style.boxShadow = `0 0 40px -14px ${accent}66`)
