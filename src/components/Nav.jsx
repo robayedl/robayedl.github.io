@@ -15,20 +15,25 @@ export default function Nav() {
   }, []);
 
   useEffect(() => {
-    const observers = [];
-    nav.forEach(({ id }) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((e) => { if (e.isIntersecting) setActive(id); });
-        },
-        { rootMargin: '-45% 0px -50% 0px', threshold: 0 }
-      );
-      io.observe(el);
-      observers.push(io);
-    });
-    return () => observers.forEach((o) => o.disconnect());
+    const ids = nav.map(({ id }) => id);
+    const updateActive = () => {
+      // At the bottom of the page, always activate the last section
+      if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 60) {
+        setActive(ids[ids.length - 1]);
+        return;
+      }
+      // Otherwise pick the last section whose top has passed 30% from the top
+      const triggerY = window.innerHeight * 0.3;
+      let current = ids[0];
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= triggerY) current = id;
+      }
+      setActive(current);
+    };
+    updateActive();
+    window.addEventListener('scroll', updateActive, { passive: true });
+    return () => window.removeEventListener('scroll', updateActive);
   }, []);
 
   return (

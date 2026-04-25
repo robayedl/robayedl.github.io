@@ -90,29 +90,28 @@ export default function ProjectAnimation({ animType = 'neural', accent = '#6366f
           n.y = (n.y + n.vy + 1) % 1;
           n.pulse += 0.035;
         });
+        // Batch all connection lines into a single stroke call
+        const maxD2 = (w * 0.28) * (w * 0.28);
+        ctx.beginPath();
+        ctx.lineWidth = 0.7;
+        ctx.strokeStyle = `rgba(${rgb},0.18)`;
         for (let i = 0; i < nodes.length; i++) {
           for (let j = i+1; j < nodes.length; j++) {
             const a = nodes[i], b = nodes[j];
             const dx = (a.x-b.x)*w, dy = (a.y-b.y)*h;
-            const d = Math.sqrt(dx*dx+dy*dy);
-            if (d < w*0.28) {
-              ctx.strokeStyle = `rgba(${rgb},${(1-d/(w*0.28))*0.22})`;
-              ctx.lineWidth = 0.7;
-              ctx.beginPath();
+            if (dx*dx+dy*dy < maxD2) {
               ctx.moveTo(a.x*w, a.y*h);
               ctx.lineTo(b.x*w, b.y*h);
-              ctx.stroke();
             }
           }
         }
+        ctx.stroke();
+        // Simple arc nodes — no per-node radial gradient
         nodes.forEach(n => {
           const r = 2+Math.sin(n.pulse)*0.8;
-          const g = ctx.createRadialGradient(n.x*w, n.y*h, 0, n.x*w, n.y*h, r*5);
-          g.addColorStop(0, `rgba(${rgb},0.45)`);
-          g.addColorStop(1, `rgba(${rgb},0)`);
-          ctx.fillStyle = g;
-          ctx.beginPath(); ctx.arc(n.x*w, n.y*h, r*5, 0, Math.PI*2); ctx.fill();
-          ctx.fillStyle = `rgba(${rgb},0.8)`;
+          ctx.fillStyle = `rgba(${rgb},0.25)`;
+          ctx.beginPath(); ctx.arc(n.x*w, n.y*h, r*3.5, 0, Math.PI*2); ctx.fill();
+          ctx.fillStyle = `rgba(${rgb},0.85)`;
           ctx.beginPath(); ctx.arc(n.x*w, n.y*h, r, 0, Math.PI*2); ctx.fill();
         });
       }
