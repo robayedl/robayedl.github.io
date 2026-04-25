@@ -16,12 +16,12 @@ export const profile = {
   codeforces: 'https://codeforces.com/profile/robayedl?locale=en',
   leetcode: 'https://leetcode.com/u/robayedl/',
   summary:
-    'AI/ML Engineer with hands-on experience building production-grade agentic AI systems, LLM-powered applications, and computer vision solutions. Built DocuMind, an agentic RAG system using LangGraph with hybrid search, hallucination detection, and streaming responses, deployed end-to-end with Docker, CI/CD, and RAGAS evaluation. Skilled in Python, PyTorch, TensorFlow, FastAPI, and LangGraph, with applied work spanning deep learning, NLP, generative AI, and real-time computer vision.',
+    'AI/ML Engineer specialising in building production-grade systems across agentic RAG pipelines, LLM applications, and real-time computer vision. Built and deployed DocuMind end-to-end, a self-correcting, agentic RAG system with hybrid search, hallucination detection, and RAGAS evaluation. Comfortable owning the full stack from model design and API development to containerisation and CI/CD, and driven by shipping things that work in the real world.',
 };
 
 export const stats = [
   { label: 'Featured AI Projects', value: 6, suffix: '' },
-  { label: 'GitHub Repo Contributions', value: 15, suffix: '' },
+  { label: 'GitHub Repo Contributions', value: 15, suffix: '+' },
   { label: 'Problems Solved', value: 1000, suffix: '+' },
   { label: 'Technologies', value: 33, suffix: '+' },
   { label: 'Masters GPA', value: 6.13, suffix: '/7.00', decimals: 2 },
@@ -43,7 +43,7 @@ export const projects = [
       'Gemini 2.5 Flash, SSE streaming, per-session memory',
       'FastAPI + Streamlit, Docker Compose, CI/CD, RAGAS eval',
     ],
-    tech: ['LangGraph', 'LangChain', 'FastAPI', 'Gemini 2.5', 'ChromaDB', 'Docker', 'RAGAS'],
+    tech: ['LangGraph', 'LangChain', 'FastAPI', 'Gemini 2.5 Flash', 'ChromaDB', 'HuggingFace', 'BM25', 'Docker', 'GitHub Actions', 'RAGAS'],
     github: 'https://github.com/robayedl/DocuMind',
     period: 'Feb 2026 – Present',
     video: {
@@ -176,42 +176,42 @@ export const skills = [
   {
     group: 'AI & Machine Learning',
     items: [
-      'Computer Vision',
-      'Deep Learning',
-      'Generative AI',
       'Agentic AI',
-      'LangChain',
-      'LangGraph',
       'LLM Applications',
       'RAG',
+      'Generative AI',
+      'Deep Learning',
+      'Computer Vision',
+      'NLP',
       'Prompt Engineering',
       'Hybrid Search',
-      'Semantic Search',
       'Vector Embeddings',
-      'Responsible AI',
+      'LLM Evaluation (RAGAS)',
     ],
   },
   {
-    group: 'Frameworks & Libraries',
+    group: 'Frameworks',
     items: [
       'Python',
       'PyTorch',
       'TensorFlow',
       'Keras',
+      'LangChain',
+      'LangGraph',
+      'FastAPI',
       'OpenCV',
       'Scikit-Learn',
-      'FastAPI',
-      'ChromaDB',
       'HuggingFace',
+      'ChromaDB',
     ],
   },
   {
-    group: 'MLOps & Experimentation',
-    items: ['ClearML', 'GitHub Actions', 'Docker', 'Docker Compose', 'Pytest', 'RAGAS Evaluation'],
+    group: 'MLOps & DevOps',
+    items: ['Docker', 'Docker Compose', 'GitHub Actions (CI/CD)', 'ClearML', 'Pytest'],
   },
   {
     group: 'Tools & Practices',
-    items: ['REST API Development', 'Git', 'Jira', 'Agile / Scrum', 'Confluence'],
+    items: ['REST API Development', 'Git', 'SQL', 'Agile/Scrum', 'Jira', 'Confluence'],
   },
 ];
 
@@ -221,10 +221,10 @@ export const experience = [
     company: 'Self-Employed',
     period: 'Feb 2026 – Present',
     bullets: [
-      'Built DocuMind, a production-grade Agentic RAG system using LangGraph with query routing, relevance grading, hallucination detection, and self-correcting retry loops.',
-      'Engineered hybrid retrieval combining BM25 sparse search with dense vector embeddings, fused via Reciprocal Rank Fusion and cross-encoder reranking.',
-      'Integrated Gemini 2.5 Flash with SSE streaming, per-session conversation memory, and RAGAS evaluation for measurable quality tracking.',
-      'Deployed as a multi-service app (FastAPI + Streamlit) with Docker Compose, GitHub Actions CI/CD, and a full REST API.',
+      'Designed the full agentic pipeline architecture from scratch, making deliberate choices around query routing, relevance grading, and hallucination detection.',
+      'Improved retrieval precision by combining BM25 with dense vector search and cross-encoder reranking, iterating until results were meaningfully better than a vector-only baseline.',
+      'Owned the evaluation strategy end-to-end, using RAGAS metrics to identify and fix quality gaps across pipeline iterations.',
+      'Built the complete deployment setup, including containerisation, CI/CD, and REST API, taking the project from prototype to a shippable system.',
     ],
   },
   {

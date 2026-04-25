@@ -1,13 +1,15 @@
+import { lazy, Suspense } from 'react';
 import Nav from './components/Nav.jsx';
 import Hero from './components/Hero.jsx';
 import ParticleBackground from './components/ParticleBackground.jsx';
 import Stats from './components/Stats.jsx';
 import Skills from './components/Skills.jsx';
 import Projects from './components/Projects.jsx';
-import Experience from './components/Experience.jsx';
-import Education from './components/Education.jsx';
-import Contact from './components/Contact.jsx';
-import Footer from './components/Footer.jsx';
+
+const Experience = lazy(() => import('./components/Experience.jsx'));
+const Education = lazy(() => import('./components/Education.jsx'));
+const Contact = lazy(() => import('./components/Contact.jsx'));
+const Footer = lazy(() => import('./components/Footer.jsx'));
 
 export default function App() {
   return (
@@ -19,11 +21,15 @@ export default function App() {
         <Stats />
         <Skills />
         <Projects />
-        <Experience />
-        <Education />
-        <Contact />
+        <Suspense>
+          <Experience />
+          <Education />
+          <Contact />
+        </Suspense>
       </main>
-      <Footer />
+      <Suspense>
+        <Footer />
+      </Suspense>
     </div>
   );
 }

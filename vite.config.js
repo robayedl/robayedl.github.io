@@ -8,6 +8,8 @@ export default defineConfig({
   base: process.env.VITE_BASE_URL ?? '/',
   server: { port: 5173, open: true },
   build: {
+    target: 'esnext',
+    cssMinify: true,
     rollupOptions: {
       output: {
         manualChunks: {
