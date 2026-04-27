@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import VideoEmbed from './VideoEmbed.jsx';
-import ProjectAnimation from './ProjectAnimation.jsx';
 import ShowcaseBadge from './ShowcaseBadge.jsx';
 
 const GitHubIcon = () => (
@@ -17,23 +16,15 @@ const ExternalIcon = () => (
   </svg>
 );
 
-const tagVariants = {
-  hidden: { opacity: 0, y: 8, scale: 0.88 },
-  show: (i) => ({
-    opacity: 1, y: 0, scale: 1,
-    transition: { duration: 0.3, delay: i * 0.04, ease: [0.22, 1, 0.36, 1] },
-  }),
-};
-
 export default function ProjectCard({ project, index }) {
   const accent = project.accent;
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 1.5, delay: (index % 2) * 0.1, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.55, delay: (index % 2) * 0.07, ease: [0.22, 1, 0.36, 1] }}
       className="card p-6 sm:p-7 group flex flex-col relative overflow-hidden"
       style={{ '--accent': accent, '--tag-color': accent }}
       onMouseEnter={(e) =>
@@ -41,12 +32,6 @@ export default function ProjectCard({ project, index }) {
       }
       onMouseLeave={(e) => (e.currentTarget.style.boxShadow = '')}
     >
-      {/* Full-card tech animation — behind all content */}
-      <div className="absolute inset-0 rounded-[18px] overflow-hidden pointer-events-none opacity-[0.22] group-hover:opacity-[0.32] transition-opacity duration-500">
-        <ProjectAnimation animType={project.animType} accent={accent} />
-      </div>
-
-      {/* Content layer */}
       <div className="relative flex flex-col flex-1">
 
         {/* Header row: period + title + github */}
@@ -64,12 +49,10 @@ export default function ProjectCard({ project, index }) {
           {/* Buttons column: GitHub + Live Demo */}
           <div className="flex flex-col gap-2 shrink-0">
             {project.github && (
-              <motion.a
+              <a
                 href={project.github}
                 target="_blank"
                 rel="noreferrer"
-                whileHover={{ scale: 1.06 }}
-                whileTap={{ scale: 0.97 }}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg mono text-xs font-medium transition-all duration-200 border"
                 style={{ color: accent, borderColor: `${accent}55`, background: `${accent}12` }}
                 onMouseEnter={(e) => {
@@ -83,15 +66,13 @@ export default function ProjectCard({ project, index }) {
               >
                 <GitHubIcon />
                 GitHub
-              </motion.a>
+              </a>
             )}
             {project.liveUrl && (
-              <motion.a
+              <a
                 href={project.liveUrl}
                 target="_blank"
                 rel="noreferrer"
-                whileHover={{ scale: 1.06 }}
-                whileTap={{ scale: 0.97 }}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg mono text-xs font-medium transition-all duration-200 border"
                 style={{ color: '#34d399', borderColor: '#34d39955', background: '#34d39912' }}
                 onMouseEnter={(e) => {
@@ -105,19 +86,19 @@ export default function ProjectCard({ project, index }) {
               >
                 <ExternalIcon />
                 Live Demo
-              </motion.a>
+              </a>
             )}
           </div>
         </div>
 
-        {/* AI Showcase badge — only for sign language project */}
+        {/* AI Showcase badge */}
         {project.showcase && (
           <div className="mb-4">
             <ShowcaseBadge showcase={project.showcase} />
           </div>
         )}
 
-        {/* Video / placeholder — always rendered */}
+        {/* Video / placeholder */}
         <div className="mb-5">
           <VideoEmbed video={project.video} accent={accent} />
         </div>
@@ -140,25 +121,14 @@ export default function ProjectCard({ project, index }) {
           ))}
         </ul>
 
-        {/* Tech tags — staggered wave on entry */}
-        <motion.div
-          className="mt-5 flex flex-wrap gap-2"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-        >
-          {project.tech.map((t, i) => (
-            <motion.span
-              key={t}
-              className="tag"
-              style={{ '--tag-color': accent }}
-              variants={tagVariants}
-              custom={i}
-            >
+        {/* Tech tags */}
+        <div className="mt-5 flex flex-wrap gap-2">
+          {project.tech.map((t) => (
+            <span key={t} className="tag" style={{ '--tag-color': accent }}>
               {t}
-            </motion.span>
+            </span>
           ))}
-        </motion.div>
+        </div>
       </div>
     </motion.article>
   );
