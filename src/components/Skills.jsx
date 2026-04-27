@@ -4,14 +4,6 @@ import { skills } from '../data/content.js';
 
 const GROUP_ACCENTS = ['#6366f1', '#22d3ee', '#8b5cf6', '#34d399'];
 
-const chipVariants = {
-  hidden: { opacity: 0, scale: 0.8, y: 10 },
-  show: (i) => ({
-    opacity: 1, scale: 1, y: 0,
-    transition: { duration: 0.35, delay: i * 0.04, ease: [0.22, 1, 0.36, 1] },
-  }),
-};
-
 export default function Skills() {
   return (
     <section id="skills" className="relative py-20 sm:py-28">
@@ -33,7 +25,7 @@ export default function Skills() {
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 1.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
                 className="card p-6"
                 onMouseEnter={(e) =>
                   (e.currentTarget.style.boxShadow = `0 0 40px -14px ${accent}66`)
@@ -54,26 +46,13 @@ export default function Skills() {
                   </div>
                 </div>
 
-                {/* Chips with staggered wave animation */}
-                <motion.div
-                  className="flex flex-wrap gap-2"
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true, margin: '-40px' }}
-                >
-                  {group.items.map((item, j) => (
-                    <motion.span
-                      key={item}
-                      className="tag"
-                      style={{ '--tag-color': accent }}
-                      variants={chipVariants}
-                      custom={j}
-                      whileHover={{ scale: 1.08, transition: { duration: 0.15 } }}
-                    >
+                <div className="flex flex-wrap gap-2">
+                  {group.items.map((item) => (
+                    <span key={item} className="tag" style={{ '--tag-color': accent }}>
                       {item}
-                    </motion.span>
+                    </span>
                   ))}
-                </motion.div>
+                </div>
               </motion.div>
             );
           })}

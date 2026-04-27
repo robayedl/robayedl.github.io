@@ -24,29 +24,30 @@ export default function ParticleBackground() {
       canvas.width = width * dpr;
       canvas.height = height * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      // Fewer particles: 65 max, larger area divisor
-      const count = Math.min(65, Math.floor((width * height) / 18000));
-      particles = Array.from({ length: count }, () => ({
+      const count = Math.min(60, Math.floor((width * height) / 18000));
+      particles = Array.from({ length: count }, (_, i) => ({
         x: Math.random() * width,
         y: Math.random() * height,
         vx: (Math.random() - 0.5) * 0.5,
         vy: (Math.random() - 0.5) * 0.5,
-        r: Math.random() * 1.7 + 0.7,
+        r: Math.random() * 1.6 + 0.7,
         color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        pulse: Math.random() * Math.PI * 2,
+        pulseSpeed: 0.018 + Math.random() * 0.018,
+        isStar: i < 5,
       }));
     };
 
     const draw = (timestamp) => {
-      // Throttle to ~30 fps — background animation doesn't need 60 fps
       if (timestamp - lastTime < 33) {
         raf = requestAnimationFrame(draw);
         return;
       }
       lastTime = timestamp;
-
       ctx.clearRect(0, 0, width, height);
 
       for (const p of particles) {
+        p.pulse += p.pulseSpeed;
         const mdx = p.x - mouse.x;
         const mdy = p.y - mouse.y;
         const md2 = mdx * mdx + mdy * mdy;
@@ -63,11 +64,11 @@ export default function ParticleBackground() {
         if (p.y < 0 || p.y > height) p.vy *= -1;
       }
 
-      // Batch all connection lines into a single stroke call instead of one per pair
-      const maxDist2 = 130 * 130;
+      // Batch connection lines
+      const maxDist2 = 140 * 140;
       ctx.beginPath();
       ctx.lineWidth = 0.7;
-      ctx.strokeStyle = 'rgba(99,102,241,0.12)';
+      ctx.strokeStyle = 'rgba(99,102,241,0.14)';
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const a = particles[i], b = particles[j];
@@ -80,11 +81,26 @@ export default function ParticleBackground() {
       }
       ctx.stroke();
 
-      // Draw dots without shadowBlur (shadowBlur forces a GPU compositing pass per dot)
+      // Soft halos for star particles
       for (const p of particles) {
-        ctx.fillStyle = p.color + 'cc';
+        if (!p.isStar) continue;
+        const pf = 0.5 + Math.sin(p.pulse) * 0.5;
+        ctx.fillStyle = p.color + '1a';
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, (p.r + 1 + pf) * 6, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // All particle dots with pulsing size
+      for (const p of particles) {
+        const pf = 0.5 + Math.sin(p.pulse) * 0.5;
+        const r = p.isStar ? p.r * 1.5 + pf * 0.9 : p.r + pf * 0.25;
+        const a = p.isStar
+          ? Math.round((0.55 + pf * 0.4) * 255).toString(16).padStart(2, '0')
+          : 'bb';
+        ctx.fillStyle = p.color + a;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
         ctx.fill();
       }
 

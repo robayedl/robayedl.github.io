@@ -45,9 +45,8 @@ export default function VideoEmbed({ video, accent }) {
           src={video.src}
           title="Project demo"
           className="absolute inset-0 h-full w-full"
-          allow="encrypted-media"
+          allow="autoplay; encrypted-media; fullscreen"
           allowFullScreen
-          sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-popups allow-fullscreen"
           referrerPolicy="strict-origin-when-cross-origin"
         />
       </div>
@@ -109,7 +108,7 @@ export default function VideoEmbed({ video, accent }) {
           className="absolute inset-0 h-full w-full"
           allow="autoplay; encrypted-media; picture-in-picture"
           allowFullScreen
-          sandbox="allow-scripts allow-same-origin allow-presentation allow-popups allow-fullscreen"
+          sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
           referrerPolicy="strict-origin-when-cross-origin"
         />
       </div>
