@@ -23,7 +23,7 @@ export const stats = [
   { label: 'Featured AI Projects', value: 6, suffix: '' },
   { label: 'GitHub Repo Contributions', value: 15, suffix: '+' },
   { label: 'Problems Solved', value: 1000, suffix: '+' },
-  { label: 'Technologies', value: 33, suffix: '+' },
+  { label: 'Technologies', value: 30, suffix: '+' },
   { label: 'Masters GPA', value: 6.13, suffix: '/7.00', decimals: 2 },
   { label: 'Undergrad CGPA', value: 3.64, suffix: '/4.00', decimals: 2 },
 ];
@@ -47,8 +47,8 @@ export const projects = [
     github: 'https://github.com/robayedl/DocuMind',
     period: 'Feb 2026 – Present',
     video: {
-      type: 'gdrive',
-      src: 'https://drive.google.com/file/d/19S67KZ1nWcUcDesqeIP3ZHDbgPXOA7p2/preview',
+      type: 'youtube',
+      src: 'https://www.youtube.com/embed/mBcN5ejaxfc',
       poster: '',
     },
   },
@@ -74,8 +74,8 @@ export const projects = [
       youtubeEmbed: 'https://www.youtube.com/embed/Q38oYFgLOj0?start=0&end=56&rel=0',
     },
     video: {
-      type: 'gdrive',
-      src: 'https://drive.google.com/file/d/1poaLyyHlphwcyuERuAklksM7k_zmP1jN/preview',
+      type: 'youtube',
+      src: 'https://www.youtube.com/embed/iOI5fpFO3X8',
       poster: '',
     },
   },
@@ -98,8 +98,8 @@ export const projects = [
     liveUrl: 'https://thirdaxis.onrender.com/',
     period: 'Feb 2025 – Jun 2025',
     video: {
-      type: 'gdrive',
-      src: 'https://drive.google.com/file/d/1zY1xYtHnkEqIkqKr526t_m4bbBOBLqQM/preview',
+      type: 'youtube',
+      src: 'https://www.youtube.com/embed/XgYH-2zpQY4',
       poster: '',
     },
   },
@@ -143,8 +143,8 @@ export const projects = [
     github: 'https://github.com/robayedl/F1Racers',
     period: 'Aug 2024 – Nov 2024',
     video: {
-      type: 'gdrive',
-      src: 'https://drive.google.com/file/d/1A_4sP8GilULZQaiBVip3vww99a75J2_U/preview',
+      type: 'youtube',
+      src: 'https://www.youtube.com/embed/F8FQkhem2_k',
       poster: '',
     },
   },
@@ -165,8 +165,8 @@ export const projects = [
     github: 'https://github.com/robayedl/TrafficSignRecognitionUsingCNN',
     period: 'Feb 2024 – Jun 2024',
     video: {
-      type: 'gdrive',
-      src: 'https://drive.google.com/file/d/1boZB1i35HFjukPuEkh8ixloRWRtKCAvm/preview',
+      type: 'youtube',
+      src: 'https://www.youtube.com/embed/r5fDZjh7Lp4',
       poster: '',
     },
   },

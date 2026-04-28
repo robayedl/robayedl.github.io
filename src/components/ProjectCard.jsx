@@ -16,8 +16,53 @@ const ExternalIcon = () => (
   </svg>
 );
 
-export default function ProjectCard({ project, index }) {
+export default function ProjectCard({ project, index, featured = false }) {
   const accent = project.accent;
+
+  const HeaderButtons = () => (
+    <div className="flex flex-col gap-2 shrink-0">
+      {project.github && (
+        <a
+          href={project.github}
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg mono text-xs font-medium transition-all duration-200 border"
+          style={{ color: accent, borderColor: `${accent}55`, background: `${accent}12` }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = `${accent}26`;
+            e.currentTarget.style.boxShadow = `0 0 22px -6px ${accent}`;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = `${accent}12`;
+            e.currentTarget.style.boxShadow = '';
+          }}
+        >
+          <GitHubIcon />
+          GitHub
+        </a>
+      )}
+      {project.liveUrl && (
+        <a
+          href={project.liveUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg mono text-xs font-medium transition-all duration-200 border"
+          style={{ color: '#34d399', borderColor: '#34d39955', background: '#34d39912' }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = '#34d39926';
+            e.currentTarget.style.boxShadow = '0 0 22px -6px #34d399';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = '#34d39912';
+            e.currentTarget.style.boxShadow = '';
+          }}
+        >
+          <ExternalIcon />
+          Live Demo
+        </a>
+      )}
+    </div>
+  );
 
   return (
     <motion.article
@@ -25,111 +70,108 @@ export default function ProjectCard({ project, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.55, delay: (index % 2) * 0.07, ease: [0.22, 1, 0.36, 1] }}
-      className="card p-6 sm:p-7 group flex flex-col relative overflow-hidden"
+      className={`card p-6 sm:p-7 group flex flex-col relative overflow-hidden${featured ? ' md:col-span-2' : ''}`}
       style={{ '--accent': accent, '--tag-color': accent }}
       onMouseEnter={(e) =>
         (e.currentTarget.style.boxShadow = `0 0 55px -14px ${accent}66, 0 0 0 1px ${accent}2a inset`)
       }
       onMouseLeave={(e) => (e.currentTarget.style.boxShadow = '')}
     >
-      <div className="relative flex flex-col flex-1">
+      {featured ? (
+        /* ── Featured layout: two columns on md+ ── */
+        <>
+          {/* GitHub button pinned to top-right of card */}
+          <div className="absolute top-6 right-6 sm:top-7 sm:right-7 z-10">
+            <HeaderButtons />
+          </div>
 
-        {/* Header row: period + title + github */}
-        <div className="flex items-start justify-between gap-4 mb-4">
-          <div className="min-w-0">
-            <div className="mono text-xs tracking-widest uppercase mb-1.5" style={{ color: accent }}>
-              {project.period}
+          <div className="flex flex-col md:flex-row md:gap-8 flex-1">
+            {/* Left: text content */}
+            <div className="flex flex-col flex-1 min-w-0 pr-20 sm:pr-24 md:pr-0">
+              <div className="mb-4">
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="mono text-xs tracking-widest uppercase" style={{ color: accent }}>{project.period}</span>
+                  <span className="mono text-xs px-2 py-0.5 rounded-full font-medium"
+                    style={{ background: `${accent}18`, border: `1px solid ${accent}44`, color: accent }}>
+                    Featured
+                  </span>
+                </div>
+                <h3 className="font-display text-2xl sm:text-3xl font-semibold leading-tight">
+                  {project.title}
+                </h3>
+                <p className="text-ink-300 text-sm mt-1 font-medium">{project.subtitle}</p>
+              </div>
+
+              {project.showcase && <div className="mb-4"><ShowcaseBadge showcase={project.showcase} /></div>}
+
+              <p className="text-ink-200 text-sm sm:text-base leading-relaxed text-justify">
+                {project.description}
+              </p>
+
+              <ul className="mt-4 space-y-2 flex-1">
+                {project.highlights.map((h) => (
+                  <li key={h} className="flex gap-2.5 text-ink-300 text-sm sm:text-base">
+                    <span className="mt-[8px] h-1.5 w-1.5 rounded-full shrink-0" style={{ background: accent }} />
+                    <span>{h}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-5 flex flex-wrap gap-2">
+                {project.tech.map((t) => (
+                  <span key={t} className="tag" style={{ '--tag-color': accent }}>{t}</span>
+                ))}
+              </div>
             </div>
-            <h3 className="font-display text-xl sm:text-2xl font-semibold leading-tight">
-              {project.title}
-            </h3>
-            <p className="text-ink-300 text-sm mt-1 font-medium">{project.subtitle}</p>
+
+            {/* Right: video — wider than before */}
+            <div className="mt-6 md:mt-0 md:w-[500px] shrink-0 flex flex-col justify-center">
+              <VideoEmbed video={project.video} accent={accent} />
+            </div>
+          </div>
+        </>
+      ) : (
+        /* ── Standard layout ── */
+        <div className="relative flex flex-col flex-1">
+          <div className="flex items-start justify-between gap-4 mb-4">
+            <div className="min-w-0">
+              <div className="mono text-xs tracking-widest uppercase mb-1.5" style={{ color: accent }}>
+                {project.period}
+              </div>
+              <h3 className="font-display text-xl sm:text-2xl font-semibold leading-tight">
+                {project.title}
+              </h3>
+              <p className="text-ink-300 text-sm mt-1 font-medium">{project.subtitle}</p>
+            </div>
+            <HeaderButtons />
           </div>
 
-          {/* Buttons column: GitHub + Live Demo */}
-          <div className="flex flex-col gap-2 shrink-0">
-            {project.github && (
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg mono text-xs font-medium transition-all duration-200 border"
-                style={{ color: accent, borderColor: `${accent}55`, background: `${accent}12` }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = `${accent}26`;
-                  e.currentTarget.style.boxShadow = `0 0 22px -6px ${accent}`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = `${accent}12`;
-                  e.currentTarget.style.boxShadow = '';
-                }}
-              >
-                <GitHubIcon />
-                GitHub
-              </a>
-            )}
-            {project.liveUrl && (
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg mono text-xs font-medium transition-all duration-200 border"
-                style={{ color: '#34d399', borderColor: '#34d39955', background: '#34d39912' }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = '#34d39926';
-                  e.currentTarget.style.boxShadow = '0 0 22px -6px #34d399';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = '#34d39912';
-                  e.currentTarget.style.boxShadow = '';
-                }}
-              >
-                <ExternalIcon />
-                Live Demo
-              </a>
-            )}
+          {project.showcase && <div className="mb-4"><ShowcaseBadge showcase={project.showcase} /></div>}
+
+          <div className="mb-5">
+            <VideoEmbed video={project.video} accent={accent} />
+          </div>
+
+          <p className="text-ink-200 text-sm sm:text-base leading-relaxed text-justify">
+            {project.description}
+          </p>
+
+          <ul className="mt-4 space-y-2 flex-1">
+            {project.highlights.map((h) => (
+              <li key={h} className="flex gap-2.5 text-ink-300 text-sm sm:text-base">
+                <span className="mt-[8px] h-1.5 w-1.5 rounded-full shrink-0" style={{ background: accent }} />
+                <span>{h}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-5 flex flex-wrap gap-2">
+            {project.tech.map((t) => (
+              <span key={t} className="tag" style={{ '--tag-color': accent }}>{t}</span>
+            ))}
           </div>
         </div>
-
-        {/* AI Showcase badge */}
-        {project.showcase && (
-          <div className="mb-4">
-            <ShowcaseBadge showcase={project.showcase} />
-          </div>
-        )}
-
-        {/* Video / placeholder */}
-        <div className="mb-5">
-          <VideoEmbed video={project.video} accent={accent} />
-        </div>
-
-        {/* Description */}
-        <p className="text-ink-200 text-sm sm:text-base leading-relaxed text-justify">
-          {project.description}
-        </p>
-
-        {/* Highlights */}
-        <ul className="mt-4 space-y-2 flex-1">
-          {project.highlights.map((h) => (
-            <li key={h} className="flex gap-2.5 text-ink-300 text-sm sm:text-base">
-              <span
-                className="mt-[8px] h-1.5 w-1.5 rounded-full shrink-0"
-                style={{ background: accent }}
-              />
-              <span>{h}</span>
-            </li>
-          ))}
-        </ul>
-
-        {/* Tech tags */}
-        <div className="mt-5 flex flex-wrap gap-2">
-          {project.tech.map((t) => (
-            <span key={t} className="tag" style={{ '--tag-color': accent }}>
-              {t}
-            </span>
-          ))}
-        </div>
-      </div>
+      )}
     </motion.article>
   );
 }

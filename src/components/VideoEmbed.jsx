@@ -2,10 +2,15 @@ import { useState } from 'react';
 
 // video.type = 'mp4' | 'youtube' | 'gdrive' | null
 //
+// youtube → click-to-play with auto-derived thumbnail, then autoplay iframe
 // gdrive  → iframe shown immediately (Drive player handles its own play button)
-// youtube → click-to-play overlay, then autoplay iframe
 // mp4     → click-to-play overlay, then <video autoPlay>
 // null    → styled placeholder
+
+function getYoutubeThumbnail(src) {
+  const match = src && src.match(/youtube\.com\/embed\/([^?/]+)/);
+  return match ? `https://img.youtube.com/vi/${match[1]}/hqdefault.jpg` : '';
+}
 
 export default function VideoEmbed({ video, accent }) {
   const [playing, setPlaying] = useState(false);
@@ -55,6 +60,7 @@ export default function VideoEmbed({ video, accent }) {
 
   // ── YouTube / MP4: click-to-play overlay ─────────────────────────────
   if (!playing) {
+    const poster = video.poster || (video.type === 'youtube' ? getYoutubeThumbnail(video.src) : '');
     return (
       <button
         type="button"
@@ -62,8 +68,8 @@ export default function VideoEmbed({ video, accent }) {
         className="group relative w-full aspect-video rounded-xl border border-white/6 overflow-hidden"
         aria-label="Play demo video"
       >
-        {video.poster ? (
-          <img src={video.poster} alt="" className="absolute inset-0 h-full w-full object-cover" />
+        {poster ? (
+          <img src={poster} alt="" className="absolute inset-0 h-full w-full object-cover" />
         ) : (
           <div
             className="absolute inset-0"
@@ -73,7 +79,7 @@ export default function VideoEmbed({ video, accent }) {
             }}
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-base-900/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
         <div className="absolute inset-0 grid place-items-center">
           <div
             className="absolute h-16 w-16 rounded-full animate-ping opacity-15"
@@ -99,16 +105,16 @@ export default function VideoEmbed({ video, accent }) {
 
   // ── YouTube ───────────────────────────────────────────────────────────
   if (video.type === 'youtube') {
-    const src = `${video.src}${video.src.includes('?') ? '&' : '?'}autoplay=1&rel=0`;
+    const src = `${video.src}${video.src.includes('?') ? '&' : '?'}autoplay=1&rel=0&vq=hd1080`;
     return (
       <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-white/6">
         <iframe
           src={src}
           title="Project demo"
           className="absolute inset-0 h-full w-full"
-          allow="autoplay; encrypted-media; picture-in-picture"
+          allow="autoplay; encrypted-media; picture-in-picture; clipboard-write"
           allowFullScreen
-          sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
+          sandbox="allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox allow-clipboard-write"
           referrerPolicy="strict-origin-when-cross-origin"
         />
       </div>

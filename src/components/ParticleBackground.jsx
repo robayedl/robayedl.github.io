@@ -8,7 +8,8 @@ export default function ParticleBackground() {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduced) return;
+    const isMobile = window.innerWidth < 768;
+    if (reduced || isMobile) return;
 
     const COLORS = ['#6366f1', '#22d3ee', '#818cf8', '#34d399', '#a78bfa'];
     let width = 0, height = 0;

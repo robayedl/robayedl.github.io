@@ -17,8 +17,11 @@ export default function Nav() {
   useEffect(() => {
     const ids = nav.map(({ id }) => id);
     const updateActive = () => {
-      // At the bottom of the page, always activate the last section
-      if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 60) {
+      // At the bottom of the page, always activate the last section.
+      // Guard: only trigger when the page is fully rendered (scrollHeight > 2× viewport),
+      // otherwise lazy-loaded sections haven't mounted yet and scrollHeight is tiny.
+      const pageFullyLoaded = document.body.scrollHeight > window.innerHeight * 2;
+      if (pageFullyLoaded && window.innerHeight + window.scrollY >= document.body.scrollHeight - 60) {
         setActive(ids[ids.length - 1]);
         return;
       }

@@ -17,7 +17,7 @@ export default function Projects() {
 
         <div className="grid gap-6 md:grid-cols-2">
           {projects.map((p, i) => (
-            <ProjectCard key={p.id} project={p} index={i} />
+            <ProjectCard key={p.id} project={p} index={i} featured={i === 0} />
           ))}
         </div>
       </div>
