@@ -14,8 +14,7 @@ function usePageViews() {
   useEffect(() => {
     if (called.current) return;
     called.current = true;
-    console.log('[counter] URL:', SUPABASE_URL, 'KEY:', SUPABASE_ANON_KEY?.slice(0, 12));
-    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) { console.error('[counter] env vars missing'); return; }
+    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return;
 
     const headers = {
       apikey: SUPABASE_ANON_KEY,
@@ -34,7 +33,6 @@ function usePageViews() {
             { headers },
           );
           const raw = await res.json();
-          console.log('[counter] GET response:', res.status, raw);
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
           const [row] = raw;
           const n = Number(row?.count);
@@ -45,13 +43,11 @@ function usePageViews() {
             { method: 'POST', headers, body: '{}' },
           );
           const raw = await res.json();
-          console.log('[counter] INCR response:', res.status, raw);
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
           const n = Number(raw);
           if (Number.isFinite(n) && n > 0) setCount(n);
         }
-      } catch (e) {
-        console.error('[counter] fetch error:', e);
+      } catch {
         if (!already) sessionStorage.removeItem(SESSION_KEY);
       }
     };

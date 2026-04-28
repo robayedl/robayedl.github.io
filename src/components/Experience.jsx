@@ -89,7 +89,7 @@ export default function Experience() {
                         className="flex gap-2.5 text-ink-200 text-sm sm:text-base"
                       >
                         <span className="mt-[8px] h-1.5 w-1.5 rounded-full shrink-0 bg-accent-indigo" />
-                        <span>{b}</span>
+                        <span className="text-justify">{b}</span>
                       </motion.li>
                     ))}
                   </motion.ul>

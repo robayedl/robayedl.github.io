@@ -45,7 +45,7 @@ export default function Education() {
 
                 {/* Major */}
                 {ed.major && (
-                  <p className="text-ink-300 text-sm sm:text-base mt-0.5">{ed.major}</p>
+                  <p className="text-ink-300 text-sm sm:text-base mt-0.5 text-justify">{ed.major}</p>
                 )}
 
                 {/* Institution — clickable */}

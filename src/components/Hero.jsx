@@ -17,12 +17,17 @@ export default function Hero() {
       </div>
 
       <div className="relative mx-auto max-w-6xl px-5">
-        <motion.div
-          {...fadeUp(0)}
-          className="mono text-xs sm:text-sm text-accent-cyan tracking-[0.25em] uppercase mb-5 flex items-center gap-2"
-        >
-          <span className="inline-block h-px w-8 bg-accent-cyan/60" />
-          {profile.title}
+        <motion.div {...fadeUp(0)} className="flex flex-wrap items-center gap-3 mb-5">
+          <div className="mono text-xs sm:text-sm text-accent-cyan tracking-[0.25em] uppercase flex items-center gap-2">
+            <span className="inline-block h-px w-8 bg-accent-cyan/60" />
+            {profile.title}
+          </div>
+          <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium"
+            style={{ background: 'rgba(52,211,153,0.1)', border: '1px solid rgba(52,211,153,0.3)', color: '#34d399' }}
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            Open to Work
+          </span>
         </motion.div>
 
         <motion.h1
