@@ -1,5 +1,6 @@
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import * as m from 'framer-motion/m';
+import { useScroll, useTransform } from 'framer-motion';
 import SectionTitle from './SectionTitle.jsx';
 import { experience } from '../data/content.js';
 
@@ -13,7 +14,6 @@ export default function Experience() {
 
   return (
     <section id="experience" className="relative py-20 sm:py-28" ref={sectionRef}>
-      {/* Ambient glow */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-accent-indigo/5 blur-[100px]" />
       </div>
@@ -28,11 +28,8 @@ export default function Experience() {
             style={{ background: 'rgba(255,255,255,0.05)' }}
           />
           {/* Animated fill */}
-          <div
-            className="absolute left-3 sm:left-5 top-0 w-px overflow-hidden"
-            style={{ height: '100%' }}
-          >
-            <motion.div
+          <div className="absolute left-3 sm:left-5 top-0 w-px overflow-hidden" style={{ height: '100%' }}>
+            <m.div
               className="w-full origin-top"
               style={{
                 height: lineHeight,
@@ -43,20 +40,20 @@ export default function Experience() {
 
           <div className="space-y-10">
             {experience.map((e, i) => (
-              <motion.div
+              <m.div
                 key={`${e.role}-${i}`}
                 initial={{ opacity: 0, x: -28 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 1.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
                 className="relative"
               >
                 {/* Timeline dot */}
-                <motion.span
+                <m.span
                   initial={{ scale: 0 }}
                   whileInView={{ scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.1 + 0.2, type: 'spring', stiffness: 200 }}
+                  transition={{ duration: 0.4, delay: i * 0.08 + 0.2, type: 'spring', stiffness: 200 }}
                   className="absolute -left-[21px] sm:-left-[27px] top-5 h-3.5 w-3.5 rounded-full ring-4 ring-base-900"
                   style={{
                     background: 'linear-gradient(135deg, #6366f1, #22d3ee)',
@@ -75,26 +72,26 @@ export default function Experience() {
                     </span>
                   </div>
 
-                  <motion.ul
+                  <m.ul
                     className="space-y-2"
                     initial="hidden"
                     whileInView="show"
                     viewport={{ once: true }}
-                    variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06, delayChildren: 0.3 } } }}
+                    variants={{ hidden: {}, show: { transition: { staggerChildren: 0.05, delayChildren: 0.2 } } }}
                   >
                     {e.bullets.map((b) => (
-                      <motion.li
+                      <m.li
                         key={b}
-                        variants={{ hidden: { opacity: 0, x: -12 }, show: { opacity: 1, x: 0, transition: { duration: 0.4 } } }}
+                        variants={{ hidden: { opacity: 0, x: -12 }, show: { opacity: 1, x: 0, transition: { duration: 0.3 } } }}
                         className="flex gap-2.5 text-ink-200 text-sm sm:text-base"
                       >
                         <span className="mt-[8px] h-1.5 w-1.5 rounded-full shrink-0 bg-accent-indigo" />
                         <span className="text-justify">{b}</span>
-                      </motion.li>
+                      </m.li>
                     ))}
-                  </motion.ul>
+                  </m.ul>
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>

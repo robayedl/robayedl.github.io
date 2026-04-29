@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import * as m from 'framer-motion/m';
 import VideoEmbed from './VideoEmbed.jsx';
 import ShowcaseBadge from './ShowcaseBadge.jsx';
 
@@ -22,60 +22,45 @@ export default function ProjectCard({ project, index, featured = false }) {
   const HeaderButtons = () => (
     <div className="flex flex-col gap-2 shrink-0">
       {project.github && (
-        <a
+        <m.a
           href={project.github}
           target="_blank"
           rel="noreferrer"
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg mono text-xs font-medium transition-all duration-200 border"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg mono text-xs font-medium border"
           style={{ color: accent, borderColor: `${accent}55`, background: `${accent}12` }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = `${accent}26`;
-            e.currentTarget.style.boxShadow = `0 0 22px -6px ${accent}`;
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = `${accent}12`;
-            e.currentTarget.style.boxShadow = '';
-          }}
+          whileHover={{ background: `${accent}26`, boxShadow: `0 0 22px -6px ${accent}` }}
+          transition={{ duration: 0.2 }}
         >
           <GitHubIcon />
           GitHub
-        </a>
+        </m.a>
       )}
       {project.liveUrl && (
-        <a
+        <m.a
           href={project.liveUrl}
           target="_blank"
           rel="noreferrer"
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg mono text-xs font-medium transition-all duration-200 border"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg mono text-xs font-medium border"
           style={{ color: '#34d399', borderColor: '#34d39955', background: '#34d39912' }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = '#34d39926';
-            e.currentTarget.style.boxShadow = '0 0 22px -6px #34d399';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = '#34d39912';
-            e.currentTarget.style.boxShadow = '';
-          }}
+          whileHover={{ background: '#34d39926', boxShadow: '0 0 22px -6px #34d399' }}
+          transition={{ duration: 0.2 }}
         >
           <ExternalIcon />
           Live Demo
-        </a>
+        </m.a>
       )}
     </div>
   );
 
   return (
-    <motion.article
+    <m.article
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.55, delay: (index % 2) * 0.07, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ boxShadow: `0 0 55px -14px ${accent}66, 0 0 0 1px ${accent}2a inset` }}
       className={`card p-6 sm:p-7 group flex flex-col relative overflow-hidden${featured ? ' md:col-span-2' : ''}`}
       style={{ '--accent': accent, '--tag-color': accent }}
-      onMouseEnter={(e) =>
-        (e.currentTarget.style.boxShadow = `0 0 55px -14px ${accent}66, 0 0 0 1px ${accent}2a inset`)
-      }
-      onMouseLeave={(e) => (e.currentTarget.style.boxShadow = '')}
     >
       {featured ? (
         /* ── Featured layout: two columns on md+ ── */
@@ -124,7 +109,7 @@ export default function ProjectCard({ project, index, featured = false }) {
               </div>
             </div>
 
-            {/* Right: video — wider than before */}
+            {/* Right: video */}
             <div className="mt-6 md:mt-0 md:w-[500px] shrink-0 flex flex-col justify-center">
               <VideoEmbed video={project.video} accent={accent} />
             </div>
@@ -172,6 +157,6 @@ export default function ProjectCard({ project, index, featured = false }) {
           </div>
         </div>
       )}
-    </motion.article>
+    </m.article>
   );
 }

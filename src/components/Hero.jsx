@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import * as m from 'framer-motion/m';
 import { profile, RESUME_PATH } from '../data/content.js';
 
 const fadeUp = (delay = 0) => ({
@@ -17,7 +17,7 @@ export default function Hero() {
       </div>
 
       <div className="relative mx-auto max-w-6xl px-5">
-        <motion.div {...fadeUp(0)} className="flex flex-wrap items-center gap-3 mb-5">
+        <m.div {...fadeUp(0)} className="flex flex-wrap items-center gap-3 mb-5">
           <div className="mono text-xs sm:text-sm text-accent-cyan tracking-[0.25em] uppercase flex items-center gap-2">
             <span className="inline-block h-px w-8 bg-accent-cyan/60" />
             {profile.title}
@@ -28,30 +28,30 @@ export default function Hero() {
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
             Open to Work
           </span>
-        </motion.div>
+        </m.div>
 
-        <motion.h1
+        <m.h1
           {...fadeUp(0.08)}
           className="font-display text-5xl sm:text-7xl font-bold leading-[1.05] tracking-tight"
         >
           <span className="gradient-text">{profile.name}</span>
-        </motion.h1>
+        </m.h1>
 
-        <motion.p
+        <m.p
           {...fadeUp(0.18)}
           className="mt-5 text-ink-200 text-lg sm:text-xl max-w-2xl font-medium"
         >
           {profile.tagline}
-        </motion.p>
+        </m.p>
 
-        <motion.p
+        <m.p
           {...fadeUp(0.28)}
           className="mt-6 text-ink-300 text-base sm:text-lg leading-relaxed text-justify"
         >
           {profile.summary}
-        </motion.p>
+        </m.p>
 
-        <motion.div
+        <m.div
           {...fadeUp(0.38)}
           className="mt-8 flex flex-wrap items-center gap-3"
         >
@@ -102,9 +102,9 @@ export default function Hero() {
             </svg>
             Codeforces
           </a>
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.55 }}
@@ -115,7 +115,7 @@ export default function Hero() {
             <circle cx="12" cy="10" r="3" />
           </svg>
           {profile.location}
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

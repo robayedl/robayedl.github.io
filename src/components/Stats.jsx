@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import * as m from 'framer-motion/m';
 import { stats } from '../data/content.js';
+import SectionTitle from './SectionTitle.jsx';
 
 function Counter({ value, decimals = 0, suffix = '' }) {
   const ref = useRef(null);
@@ -46,9 +47,10 @@ export default function Stats() {
   return (
     <section id="stats" className="relative py-12 sm:py-16">
       <div className="mx-auto max-w-6xl px-5">
+        <SectionTitle eyebrow="By the numbers" title="At a Glance" />
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
           {stats.map((s, i) => (
-            <motion.div
+            <m.div
               key={s.label}
               initial={{ opacity: 0, y: 20, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -60,7 +62,7 @@ export default function Stats() {
               <div className="mono text-xs text-ink-400 mt-2 tracking-wider uppercase leading-snug">
                 {s.label}
               </div>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </div>

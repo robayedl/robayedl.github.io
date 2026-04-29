@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { profile } from '../data/content.js';
+import { profile, LAST_UPDATED } from '../data/content.js';
 
-// Supabase anon key is safe to expose — RLS blocks all direct writes.
-// Increment only happens via the increment_views() DB function.
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 const SESSION_KEY = 'pv_counted';
@@ -66,19 +64,17 @@ export default function Footer() {
     <footer className="border-t border-white/5 py-8">
       <div className="mx-auto max-w-6xl px-5 flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="mono text-xs text-ink-400">
-          © {year} {profile.name}. Built with React, Vite & Tailwind.
+          © {year} {profile.name} · Built with React, Framer Motion &amp; Tailwind.
         </div>
 
         <div className="flex items-center gap-4 mono text-xs text-ink-400">
-          <a href={profile.github} target="_blank" rel="noreferrer" className="hover:text-ink-100 transition-colors">
-            github
-          </a>
-          <a href={profile.linkedin} target="_blank" rel="noreferrer" className="hover:text-ink-100 transition-colors">
-            linkedin
-          </a>
-          <a href={`mailto:${profile.email}`} className="hover:text-ink-100 transition-colors">
-            gmail
-          </a>
+          <div className="flex items-center gap-1.5 text-ink-400/50">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-3 w-3">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+            Last updated: {LAST_UPDATED}
+          </div>
 
           {views !== null && (
             <>
