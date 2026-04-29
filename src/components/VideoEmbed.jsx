@@ -69,7 +69,7 @@ export default function VideoEmbed({ video, accent }) {
         aria-label="Play demo video"
       >
         {poster ? (
-          <img src={poster} alt="" className="absolute inset-0 h-full w-full object-cover" />
+          <img src={poster} alt="" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
         ) : (
           <div
             className="absolute inset-0"

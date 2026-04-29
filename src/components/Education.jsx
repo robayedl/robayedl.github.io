@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import * as m from 'framer-motion/m';
 import SectionTitle from './SectionTitle.jsx';
 import { education } from '../data/content.js';
 
@@ -7,7 +7,6 @@ const ACCENTS = ['#6366f1', '#22d3ee'];
 export default function Education() {
   return (
     <section id="education" className="relative py-20 sm:py-28">
-      {/* Ambient glow */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-accent-cyan/5 blur-[120px]" />
       </div>
@@ -19,36 +18,28 @@ export default function Education() {
           {education.map((ed, i) => {
             const accent = ACCENTS[i % ACCENTS.length];
             return (
-              <motion.div
+              <m.div
                 key={ed.school}
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 whileInView={{ opacity: 1, scale: 1, y: 0 }}
                 viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 1.5, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ boxShadow: `0 0 40px -12px ${accent}66` }}
                 className="card p-6 sm:p-7 flex flex-col gap-1"
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.boxShadow = `0 0 40px -12px ${accent}66`)
-                }
-                onMouseLeave={(e) => (e.currentTarget.style.boxShadow = '')}
               >
-                {/* Period badge */}
                 <div
-                  className="mono text-xs sm:text-sm uppercase tracking-widest mb-2 inline-flex items-center gap-1.5"
+                  className="mono text-xs sm:text-sm uppercase tracking-widest mb-2"
                   style={{ color: accent }}
                 >
-                  <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: accent }} />
                   {ed.period}
                 </div>
 
-                {/* Degree */}
                 <h3 className="font-display text-xl sm:text-2xl font-semibold">{ed.degree}</h3>
 
-                {/* Major */}
                 {ed.major && (
                   <p className="text-ink-300 text-sm sm:text-base mt-0.5 text-justify">{ed.major}</p>
                 )}
 
-                {/* Institution — clickable */}
                 <a
                   href={ed.url}
                   target="_blank"
@@ -68,11 +59,10 @@ export default function Education() {
                   </svg>
                 </a>
 
-                {/* Grade */}
                 <p className="mono text-xs sm:text-sm text-ink-400 mt-2 pt-2 border-t border-white/5">
                   {ed.grade}
                 </p>
-              </motion.div>
+              </m.div>
             );
           })}
         </div>

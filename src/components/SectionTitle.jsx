@@ -1,12 +1,12 @@
-import { motion } from 'framer-motion';
+import * as m from 'framer-motion/m';
 
 export default function SectionTitle({ eyebrow, title, children }) {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 1.5, ease: 'easeOut' }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
       className="mb-10"
     >
       {eyebrow && (
@@ -18,6 +18,6 @@ export default function SectionTitle({ eyebrow, title, children }) {
         {title}
       </h2>
       {children && <p className="mt-4 text-ink-300 text-justify">{children}</p>}
-    </motion.div>
+    </m.div>
   );
 }

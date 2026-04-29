@@ -3,6 +3,7 @@
 // =====================================================================
 
 export const RESUME_PATH = '/resume.pdf';
+export const LAST_UPDATED = 'April 2026';
 
 export const profile = {
   name: 'Robayed Ashraf',

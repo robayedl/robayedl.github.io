@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import * as m from 'framer-motion/m';
 import SectionTitle from './SectionTitle.jsx';
 import { profile } from '../data/content.js';
 
@@ -74,7 +74,7 @@ export default function Contact() {
 
         <div className="grid gap-4 sm:grid-cols-2">
           {items.map((item, i) => (
-            <motion.a
+            <m.a
               key={item.label}
               href={item.href}
               target={item.href.startsWith('http') ? '_blank' : undefined}
@@ -82,16 +82,12 @@ export default function Contact() {
               initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 1.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -3 }}
+              transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -3, boxShadow: `0 0 35px -10px ${item.accent}88` }}
               className="card p-5 flex items-center gap-4 group"
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.boxShadow = `0 0 35px -10px ${item.accent}88`)
-              }
-              onMouseLeave={(e) => (e.currentTarget.style.boxShadow = '')}
             >
               {/* Icon circle */}
-              <motion.div
+              <m.div
                 className="h-11 w-11 rounded-xl grid place-items-center shrink-0 transition-all duration-300"
                 style={{
                   background: `${item.accent}18`,
@@ -101,7 +97,7 @@ export default function Contact() {
                 whileHover={{ scale: 1.1, rotate: 5 }}
               >
                 <item.Icon />
-              </motion.div>
+              </m.div>
 
               <div className="min-w-0 flex-1">
                 <div
@@ -114,7 +110,7 @@ export default function Contact() {
               </div>
 
               <span className="shrink-0 text-lg" style={{ color: item.accent }}>→</span>
-            </motion.a>
+            </m.a>
           ))}
         </div>
       </div>

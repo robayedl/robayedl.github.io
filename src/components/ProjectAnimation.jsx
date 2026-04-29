@@ -12,6 +12,8 @@ export default function ProjectAnimation({ animType = 'neural', accent = '#6366f
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile = window.innerWidth < 768;
+    if (reduced || isMobile) return;
     let raf;
     let visible = false;
     let t = 0;

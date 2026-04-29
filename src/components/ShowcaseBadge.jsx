@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import * as m from 'framer-motion/m';
+import { AnimatePresence } from 'framer-motion';
 
 const TrophyIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-3.5 w-3.5 shrink-0">
@@ -23,35 +24,26 @@ export default function ShowcaseBadge({ showcase }) {
 
   return (
     <>
-      {/* Badge button */}
-      <motion.button
+      <m.button
         onClick={() => setOpen(true)}
-        whileHover={{ scale: 1.04 }}
+        whileHover={{ scale: 1.04, background: '#fbbf2422', boxShadow: '0 0 20px -6px #fbbf24' }}
         whileTap={{ scale: 0.97 }}
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full mono text-xs font-medium transition-all duration-200 border cursor-pointer"
+        transition={{ duration: 0.2 }}
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full mono text-xs font-medium border cursor-pointer"
         style={{
           color: '#fbbf24',
           borderColor: '#fbbf2455',
           background: '#fbbf2412',
         }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.background = '#fbbf2422';
-          e.currentTarget.style.boxShadow = '0 0 20px -6px #fbbf24';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.background = '#fbbf2412';
-          e.currentTarget.style.boxShadow = '';
-        }}
       >
         <TrophyIcon />
         {showcase.label}
         <PlayIcon />
-      </motion.button>
+      </m.button>
 
-      {/* Modal */}
       <AnimatePresence>
         {open && (
-          <motion.div
+          <m.div
             key="modal-backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -61,7 +53,7 @@ export default function ShowcaseBadge({ showcase }) {
             className="fixed inset-0 z-[100] grid place-items-center p-4 sm:p-8"
             style={{ background: 'rgba(5,7,15,0.85)', backdropFilter: 'blur(12px)' }}
           >
-            <motion.div
+            <m.div
               key="modal-content"
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -77,7 +69,6 @@ export default function ShowcaseBadge({ showcase }) {
                 overflow: 'hidden',
               }}
             >
-              {/* Modal header */}
               <div className="flex items-center justify-between px-5 py-4 border-b border-white/6">
                 <div className="flex items-center gap-2">
                   <span style={{ color: '#fbbf24' }}><TrophyIcon /></span>
@@ -94,7 +85,6 @@ export default function ShowcaseBadge({ showcase }) {
                 </button>
               </div>
 
-              {/* Video embed */}
               <div className="relative w-full aspect-video bg-black">
                 <iframe
                   src={`${showcase.youtubeEmbed}&autoplay=1`}
@@ -110,8 +100,8 @@ export default function ShowcaseBadge({ showcase }) {
               <div className="px-5 py-3 mono text-xs text-ink-400 text-center">
                 Our project demo runs from the beginning — first 56 seconds
               </div>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>
