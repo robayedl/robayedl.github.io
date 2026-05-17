@@ -15,9 +15,9 @@ function usePageViews() {
 
     const run = async () => {
       try {
-        const today = new Date().toISOString().slice(0, 10);
+        const tomorrow = new Date(Date.now() + 864e5).toISOString().slice(0, 10);
         const res = await fetch(
-          `https://${GC_SITE}.goatcounter.com/api/v0/stats/hits?start=2025-01-01&end=${today}`,
+          `https://${GC_SITE}.goatcounter.com/api/v0/stats/hits?start=2025-01-01&end=${tomorrow}`,
           { headers: { Authorization: `Bearer ${GC_TOKEN}` } },
         );
         if (!res.ok) return;
