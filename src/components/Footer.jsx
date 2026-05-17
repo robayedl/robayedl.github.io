@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { profile, LAST_UPDATED } from '../data/content.js';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
-const SESSION_KEY = 'pv_counted';
+const GC_SITE = import.meta.env.VITE_GOATCOUNTER_SITE;
+const GC_TOKEN = import.meta.env.VITE_GOATCOUNTER_TOKEN;
 
 function usePageViews() {
   const [count, setCount] = useState(null);
@@ -12,41 +11,21 @@ function usePageViews() {
   useEffect(() => {
     if (called.current) return;
     called.current = true;
-    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return;
-
-    const headers = {
-      apikey: SUPABASE_ANON_KEY,
-      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-      'Content-Type': 'application/json',
-    };
-
-    const already = !!sessionStorage.getItem(SESSION_KEY);
-    if (!already) sessionStorage.setItem(SESSION_KEY, '1');
+    if (!GC_SITE || !GC_TOKEN) return;
 
     const run = async () => {
       try {
-        if (already) {
-          const res = await fetch(
-            `${SUPABASE_URL}/rest/v1/pageviews?select=count&id=eq.1`,
-            { headers },
-          );
-          const raw = await res.json();
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
-          const [row] = raw;
-          const n = Number(row?.count);
-          if (Number.isFinite(n) && n > 0) setCount(n);
-        } else {
-          const res = await fetch(
-            `${SUPABASE_URL}/rest/v1/rpc/increment_views`,
-            { method: 'POST', headers, body: '{}' },
-          );
-          const raw = await res.json();
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
-          const n = Number(raw);
-          if (Number.isFinite(n) && n > 0) setCount(n);
-        }
+        const today = new Date().toISOString().slice(0, 10);
+        const res = await fetch(
+          `https://${GC_SITE}.goatcounter.com/api/v0/stats/hits?start=2025-01-01&end=${today}`,
+          { headers: { Authorization: `Bearer ${GC_TOKEN}` } },
+        );
+        if (!res.ok) return;
+        const data = await res.json();
+        const total = (data.hits ?? []).reduce((sum, d) => sum + (d.count ?? 0), 0);
+        if (total > 0) setCount(total);
       } catch {
-        if (!already) sessionStorage.removeItem(SESSION_KEY);
+        // non-critical
       }
     };
 
