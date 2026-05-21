@@ -17,7 +17,7 @@ export const profile = {
   codeforces: 'https://codeforces.com/profile/robayedl?locale=en',
   leetcode: 'https://leetcode.com/u/robayedl/',
   summary:
-    'AI/ML Engineer specialising in building production-grade systems across agentic RAG pipelines, LLM applications, and real-time computer vision. Built and deployed DocuMind end-to-end, a self-correcting, agentic RAG system with hybrid search, hallucination detection, and RAGAS evaluation. Comfortable owning the full stack from model design and API development to containerisation and CI/CD, and driven by shipping things that work in the real world.',
+    'AI/ML Engineer specialising in production-grade agentic AI, LLM applications, and real-time computer vision. Built DocuMind from scratch, an agentic RAG system with hybrid search, Contextual Retrieval, Redis semantic caching, and multimodal PDF ingestion, reaching 0.974 faithfulness on RAGAS evaluation. Handling everything from pipeline architecture and API development to containerisation and CI/CD, and driven by shipping things that work in the real world.',
 };
 
 export const stats = [
@@ -39,12 +39,12 @@ export const projects = [
     description:
       'Production-grade Agentic RAG system with query routing, relevance grading, hallucination detection, and self-correcting retry loops. Hybrid retrieval fuses BM25 with dense embeddings via Reciprocal Rank Fusion and cross-encoder reranking.',
     highlights: [
-      'LangGraph agent with self-correcting retry loops',
-      'Hybrid BM25 + dense vector search with RRF & reranking',
-      'Gemini 2.5 Flash, SSE streaming, per-session memory',
-      'FastAPI + Streamlit, Docker Compose, CI/CD, RAGAS eval',
+      'Agentic RAG with query routing, LLM-as-judge grading, hallucination detection & self-correcting retry loops',
+      'Hybrid BM25 + dense search with RRF, reranking, HyDE fallback & Contextual Retrieval — 13.3 pp recall gain',
+      'Multimodal PDF ingestion: table-aware parsing, Markdown extraction, Gemini figure captioning',
+      '0.974 faithfulness · 0.917 context precision · Redis cache, SSE streaming, Docker Compose, CI/CD',
     ],
-    tech: ['LangGraph', 'LangChain', 'FastAPI', 'Gemini 2.5 Flash', 'ChromaDB', 'HuggingFace', 'BM25', 'Docker', 'GitHub Actions', 'RAGAS'],
+    tech: ['LangGraph', 'LangChain', 'FastAPI', 'Gemini 2.5 Flash', 'ChromaDB', 'Redis', 'HuggingFace', 'BM25', 'Docker', 'GitHub Actions', 'RAGAS'],
     github: 'https://github.com/robayedl/DocuMind',
     period: 'Feb 2026 – Present',
     video: {
@@ -187,6 +187,7 @@ export const skills = [
       'Prompt Engineering',
       'Hybrid Search',
       'Vector Embeddings',
+      'Contextual Retrieval',
       'LLM Evaluation (RAGAS)',
     ],
   },
@@ -204,6 +205,7 @@ export const skills = [
       'Scikit-Learn',
       'HuggingFace',
       'ChromaDB',
+      'Redis',
     ],
   },
   {
@@ -222,10 +224,10 @@ export const experience = [
     company: 'Self-Employed',
     period: 'Feb 2026 – Present',
     bullets: [
-      'Designed the full agentic pipeline architecture from scratch, making deliberate choices around query routing, relevance grading, and hallucination detection.',
-      'Improved retrieval precision by combining BM25 with dense vector search and cross-encoder reranking, iterating until results were meaningfully better than a vector-only baseline.',
-      'Owned the evaluation strategy end-to-end, using RAGAS metrics to identify and fix quality gaps across pipeline iterations.',
-      'Built the complete deployment setup, including containerisation, CI/CD, and REST API, taking the project from prototype to a shippable system.',
+      'Sole engineer on DocuMind, leading the full product lifecycle from architecture decisions and pipeline design to deployment and iterative improvement across multiple versions.',
+      'Built and iterated on the retrieval stack, introducing Contextual Retrieval, HyDE fallback, and Redis semantic caching based on RAGAS evaluation results.',
+      'Designed and maintained the evaluation framework using a hand-curated 30-question golden dataset, using metric trends to prioritise and validate each improvement.',
+      'Managed the full deployment setup, including containerisation, CI/CD pipeline, REST API design, and a pytest suite covering agent, cache, and ingestion modules.',
     ],
   },
   {
