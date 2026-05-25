@@ -17,7 +17,7 @@ export const profile = {
   codeforces: 'https://codeforces.com/profile/robayedl?locale=en',
   leetcode: 'https://leetcode.com/u/robayedl/',
   summary:
-    'AI/ML Engineer specialising in production-grade agentic AI, LLM applications, and real-time computer vision. Built DocuMind from scratch, an agentic RAG system with hybrid search, Contextual Retrieval, Redis semantic caching, and multimodal PDF ingestion, reaching 0.974 faithfulness on RAGAS evaluation. Handling everything from pipeline architecture and API development to containerisation and CI/CD, and driven by shipping things that work in the real world.',
+    'AI/ML Engineer specialising in production-grade agentic AI, LLM applications, and real-time Computer Vision. Built DocuMind from scratch, an agentic RAG system with hybrid search, async ingestion, multi-user auth, and Contextual Retrieval, achieving 0.984 faithfulness on RAGAS evaluation. Owning everything from pipeline architecture and backend engineering to deployment and CI/CD, and driven by shipping systems that work in the real world.',
 };
 
 export const stats = [
@@ -37,19 +37,19 @@ export const projects = [
     accent: '#6366f1',
     animType: 'neural',
     description:
-      'Production-grade Agentic RAG system with query routing, relevance grading, hallucination detection, and self-correcting retry loops. Hybrid retrieval fuses BM25 with dense embeddings via Reciprocal Rank Fusion and cross-encoder reranking.',
+      'Production-grade Agentic RAG system with autonomous query routing, hallucination detection, and self-correcting retry loops powered by LangGraph. Hybrid retrieval combines pgvector HNSW dense and PostgreSQL sparse search, fused with RRF and cross-encoder reranking.',
     highlights: [
       'Agentic RAG with query routing, LLM-as-judge grading, hallucination detection & self-correcting retry loops',
-      'Hybrid BM25 + dense search with RRF, reranking, HyDE fallback & Contextual Retrieval — 13.3 pp recall gain',
-      'Multimodal PDF ingestion: table-aware parsing, Markdown extraction, Gemini figure captioning',
-      '0.974 faithfulness · 0.917 context precision · Redis cache, SSE streaming, Docker Compose, CI/CD',
+      'Hybrid pgvector dense + PostgreSQL sparse search with RRF, reranking, HyDE fallback & Contextual Retrieval',
+      'Async Celery ingestion with 5-stage progress tracking, Clerk JWT multi-user auth & Redis semantic cache',
+      '0.984 faithfulness · 0.933 context recall · 0.882 context precision · Docker Compose, GitHub Actions CI/CD',
     ],
-    tech: ['LangGraph', 'LangChain', 'FastAPI', 'Gemini 2.5 Flash', 'ChromaDB', 'Redis', 'HuggingFace', 'BM25', 'Docker', 'GitHub Actions', 'RAGAS'],
+    tech: ['LangGraph', 'LangChain', 'FastAPI', 'Gemini 2.5 Flash', 'Postgres', 'pgvector', 'Redis', 'Celery', 'Next.js 15', 'HuggingFace', 'Docker', 'GitHub Actions', 'RAGAS'],
     github: 'https://github.com/robayedl/DocuMind',
     period: 'Feb 2026 – Present',
     video: {
       type: 'youtube',
-      src: 'https://www.youtube.com/embed/mBcN5ejaxfc',
+      src: 'https://www.youtube.com/embed/npWqu6u-TKk',
       poster: '',
     },
   },
@@ -204,17 +204,17 @@ export const skills = [
       'OpenCV',
       'Scikit-Learn',
       'HuggingFace',
-      'ChromaDB',
       'Redis',
+      'Celery',
     ],
   },
   {
     group: 'MLOps & DevOps',
-    items: ['Docker', 'Docker Compose', 'GitHub Actions (CI/CD)', 'ClearML', 'Pytest'],
+    items: ['Docker', 'Docker Compose', 'GitHub Actions (CI/CD)', 'ClearML', 'Pytest', 'REST API Development'],
   },
   {
     group: 'Tools & Practices',
-    items: ['REST API Development', 'Git', 'SQL', 'Agile/Scrum', 'Jira', 'Confluence'],
+    items: ['Git', 'SQL', 'PostgreSQL', 'Agile/Scrum', 'Jira', 'Confluence'],
   },
 ];
 
@@ -224,10 +224,10 @@ export const experience = [
     company: 'Self-Employed',
     period: 'Feb 2026 – Present',
     bullets: [
-      'Sole engineer on DocuMind, leading the full product lifecycle from architecture decisions and pipeline design to deployment and iterative improvement across multiple versions.',
-      'Built and iterated on the retrieval stack, introducing Contextual Retrieval, HyDE fallback, and Redis semantic caching based on RAGAS evaluation results.',
-      'Designed and maintained the evaluation framework using a hand-curated 30-question golden dataset, using metric trends to prioritise and validate each improvement.',
-      'Managed the full deployment setup, including containerisation, CI/CD pipeline, REST API design, and a pytest suite covering agent, cache, and ingestion modules.',
+      'Sole engineer across two major releases, making all architecture decisions from database selection and retrieval design to API structure and deployment strategy.',
+      'Designed and implemented the full backend: FastAPI REST API, async Celery worker queue, Postgres schema with pgvector indexes, Redis caching layer, and Clerk JWT auth integration.',
+      'Built and iterated on the agentic LangGraph pipeline and retrieval stack using RAGAS evaluation metrics to validate every improvement across versions.',
+      'Replaced the Streamlit prototype with a production Next.js 15 frontend featuring SSE streaming chat, an inline PDF citation viewer, and per-user document isolation.',
     ],
   },
   {
