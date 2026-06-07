@@ -107,18 +107,18 @@ export const projects = [
   {
     id: 'mot',
     title: 'Multi-Object Tracking',
-    subtitle: 'Transformer vs Detection-Based Benchmark',
+    subtitle: 'Real-Time Video Inference Benchmark',
     accent: '#e879f9',
     animType: 'track',
     description:
-      'Compared MOTR (Transformer-based) and BoostTrack++ (tracking-by-detection with YOLOX) for retail footfall analytics and smart city surveillance. Profiled real-time inference trade-offs and benchmarked using MOTChallenge metrics.',
+      'Compared MOTR (Transformer-based) and BoostTrack++ (tracking-by-detection with YOLOX) on MOT17, with MOTR achieving 98.518% IDF1 and 92.57% HOTA versus 96.104% and 87.093% for BoostTrack++. Profiled real-time inference on NVIDIA RTX 4060 to identify deployment trade-offs for live video scenarios.',
     highlights: [
-      '1.54–3.60 FPS · 255–409 ms latency on RTX 4060',
-      'Streamlit prototype for live webcam tracking comparison',
-      'IDF1 / HOTA benchmarking via TrackEval',
-      'Documented deployment trade-offs for live video',
+      'MOTR: 98.518% IDF1 · 92.57% HOTA vs BoostTrack++: 96.104% · 87.093% on MOT17',
+      '1.54–3.60 FPS · 255–409 ms latency on NVIDIA RTX 4060',
+      'Streamlit prototype: live webcam & video inference with bounding box overlays',
+      'MOTA, IDF1, HOTA evaluated via TrackEval on MOT17 ground truth',
     ],
-    tech: ['PyTorch', 'YOLOX', 'MOTR', 'BoostTrack++', 'CUDA', 'TrackEval', 'Streamlit'],
+    tech: ['PyTorch', 'OpenCV', 'YOLOX', 'MOTR', 'TrackEval', 'CUDA', 'Streamlit'],
     github: null,
     period: 'Jan 2025 – Jun 2025',
     video: {
