@@ -1,5 +1,5 @@
 // =====================================================================
-// CONTENT CONFIG — single source of truth for all website content.
+// CONTENT CONFIG, single source of truth for all website content.
 // =====================================================================
 
 export const RESUME_PATH = '/resume.pdf';
@@ -17,7 +17,7 @@ export const profile = {
   codeforces: 'https://codeforces.com/profile/robayedl?locale=en',
   leetcode: 'https://leetcode.com/u/robayedl/',
   summary:
-    'AI/ML Engineer specialising in production-grade agentic AI, LLM applications, and real-time Computer Vision. Built DocuMind from scratch, an agentic RAG system with hybrid search, async ingestion, multi-user auth, and Contextual Retrieval, achieving 0.984 faithfulness on RAGAS evaluation. Owning everything from pipeline architecture and backend engineering to deployment and CI/CD, and driven by shipping systems that work in the real world.',
+    'AI/ML Engineer specialising in production-grade agentic AI, multi-agent systems, and real-time Computer Vision. Built DocuMind from scratch, a multi-agent RAG system with its own MCP server, where a LangGraph supervisor of Researcher, Synthesizer, and Critic agents catches hallucinations before a user ever sees the answer, scoring 0.985 faithfulness on RAGAS. Owning everything from pipeline architecture and backend engineering to deployment and CI/CD, and driven by shipping systems that work in the real world.',
 };
 
 export const stats = [
@@ -37,19 +37,19 @@ export const projects = [
     accent: '#6366f1',
     animType: 'neural',
     description:
-      'Production-grade Agentic RAG system with autonomous query routing, hallucination detection, and self-correcting retry loops powered by LangGraph. Hybrid retrieval combines pgvector HNSW dense and PostgreSQL sparse search, fused with RRF and cross-encoder reranking.',
+      'Multi-agent RAG system for chatting with PDFs and DOCX, with its own MCP server. A LangGraph supervisor runs Researcher, Synthesizer, and Critic agents with self-correcting revision loops, and hybrid retrieval combines pgvector HNSW dense and ts_rank sparse search, fused with RRF and cross-encoder reranking.',
     highlights: [
-      'Agentic RAG with query routing, LLM-as-judge grading, hallucination detection & self-correcting retry loops',
-      'Hybrid pgvector dense + PostgreSQL sparse search with RRF, reranking, HyDE fallback & Contextual Retrieval',
-      'Async Celery ingestion with 5-stage progress tracking, Clerk JWT multi-user auth & Redis semantic cache',
-      '0.984 faithfulness · 0.933 context recall · 0.882 context precision · Docker Compose, GitHub Actions CI/CD',
+      'LangGraph supervisor orchestrates Researcher, Synthesizer & Critic agents with self-correcting revision loops',
+      'Agentic tool use via Gemini function calling, with the Researcher autonomously invoking web search & a sandboxed calculator',
+      'Hybrid pgvector HNSW dense + ts_rank sparse search with RRF, cross-encoder reranking, Contextual Retrieval & HyDE fallback',
+      '0.985 faithfulness · 0.917 context recall on a 30-question RAGAS golden set · Docker Compose, GitHub Actions CI/CD',
     ],
-    tech: ['LangGraph', 'LangChain', 'FastAPI', 'Gemini 2.5 Flash', 'Postgres', 'pgvector', 'Redis', 'Celery', 'Next.js 15', 'HuggingFace', 'Docker', 'GitHub Actions', 'RAGAS'],
+    tech: ['LangGraph', 'LangChain', 'FastAPI', 'Gemini 2.5 Flash', 'MCP', 'Postgres', 'pgvector', 'Redis', 'Celery', 'Tavily', 'Next.js 16', 'HuggingFace', 'Docker', 'GitHub Actions', 'RAGAS', 'Pytest'],
     github: 'https://github.com/robayedl/DocuMind',
     period: 'Feb 2026 – Present',
     video: {
       type: 'youtube',
-      src: 'https://www.youtube.com/embed/npWqu6u-TKk',
+      src: 'https://www.youtube.com/embed/8nEjgqEN19E',
       poster: '',
     },
   },
@@ -87,7 +87,7 @@ export const projects = [
     accent: '#34d399',
     animType: 'grid',
     description:
-      'End-to-end ML project lifecycle for precision agriculture — data ingestion, preprocessing, training, evaluation, and deployment managed with Agile practices, ClearML, and a Streamlit inference interface.',
+      'End-to-end ML project lifecycle for precision agriculture: data ingestion, preprocessing, training, evaluation, and deployment managed with Agile practices, ClearML, and a Streamlit inference interface.',
     highlights: [
       'Modular ClearML pipeline with reproducible stages',
       'Artifact management for dataset and model versioning',
@@ -178,8 +178,11 @@ export const skills = [
     group: 'AI & Machine Learning',
     items: [
       'Agentic AI',
+      'Multi-Agent Systems',
       'LLM Applications',
       'RAG',
+      'MCP (Model Context Protocol)',
+      'Tool Calling',
       'Generative AI',
       'Deep Learning',
       'Computer Vision',
@@ -224,10 +227,10 @@ export const experience = [
     company: 'Self-Employed',
     period: 'Feb 2026 – Present',
     bullets: [
-      'Sole engineer across two major releases, making all architecture decisions from database selection and retrieval design to API structure and deployment strategy.',
-      'Designed and implemented the full backend: FastAPI REST API, async Celery worker queue, Postgres schema with pgvector indexes, Redis caching layer, and Clerk JWT auth integration.',
-      'Built and iterated on the agentic LangGraph pipeline and retrieval stack using RAGAS evaluation metrics to validate every improvement across versions.',
-      'Replaced the Streamlit prototype with a production Next.js 15 frontend featuring SSE streaming chat, an inline PDF citation viewer, and per-user document isolation.',
+      'Sole engineer across three major releases, owning all decisions from retrieval design and agent orchestration to database schema and deployment.',
+      'Re-architected the linear RAG pipeline into a multi-agent LangGraph supervisor, gating the redesign behind RAGAS regression checks before shipping.',
+      'Built the full backend: FastAPI REST API, Celery worker queue, Postgres with pgvector, Redis caching and rate limiting, Clerk JWT auth, and an MCP server for Claude Desktop and Cursor.',
+      'Shipped a production Next.js 16 frontend with SSE streaming chat, inline PDF citations, and per-user document isolation.',
     ],
   },
   {

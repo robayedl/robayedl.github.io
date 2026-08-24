@@ -108,7 +108,7 @@ export default function ProjectAnimation({ animType = 'neural', accent = '#6366f
           }
         }
         ctx.stroke();
-        // Simple arc nodes — no per-node radial gradient
+        // Simple arc nodes, no per-node radial gradient
         nodes.forEach(n => {
           const r = 2+Math.sin(n.pulse)*0.8;
           ctx.fillStyle = `rgba(${rgb},0.25)`;

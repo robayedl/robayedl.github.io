@@ -98,7 +98,7 @@ export default function ShowcaseBadge({ showcase }) {
               </div>
 
               <div className="px-5 py-3 mono text-xs text-ink-400 text-center">
-                Our project demo runs from the beginning — first 56 seconds
+                Our project demo runs from the beginning, first 56 seconds
               </div>
             </m.div>
           </m.div>
